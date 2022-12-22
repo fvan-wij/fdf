@@ -1,135 +1,147 @@
 #include "libft.h"
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include "fdf.h"
 
-size_t	ft_strcpy(char *dst, const char *src)
+//TO DO
+// * Fix segfaults on bigger/other maps
+// * Fix parsing for hex values
+// * Merge printf with libft
+
+char	*get_mapdata(int fd)
 {
-	size_t	i;
-
-	i = 0;
-	if (!src)
-		return (0);
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
-
-char	*ft_strjoin_and_free(char *s1, char *s2)
-{
-	int		len;
-	char	*strjoin;
-
-	len = (ft_strlen(s1) + ft_strlen(s2)) + 1;
-	strjoin = malloc(len * sizeof(char));
-	if (!strjoin)
-		return (free(s1), NULL);
-	ft_strcpy(strjoin, s1);
-	ft_strcpy(strjoin + ft_strlen(s1), s2);
-	free(s1);
-	return (strjoin);
-}
-
-
-int	**create_2D_int(int fd, int *noc)
-{
-	int 	n;
-	int 	i;
-	int 	c_count;
-	int 	**int_array;
-	char	*line;
-
-	n = 0;
-	i = 0;
-	c_count = 0;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		while(line[i] != '\0')
-		{
-			if (line[i] == 32)
-				c_count++;
-			i++;
-		}
-		i = 0;
-		n++;
-	}
-	i = 0;
-	int_array = malloc(n * sizeof(int *));
-	while (i < n)
-	{
-		int_array[i] = malloc((c_count / n) * sizeof(int));
-		i++;
-	}
-	*noc = c_count / n;
-	return (int_array);
-}
-
-int	count_lines(char *argv[])
-{
-	int		fd;
+	char	*mapdata;
+	char	buffer[1000];
 	int		bytes;
-	char	buffer[50];
-	char	*storage;
-	int		i;
 
-	fd = open(argv[1], O_RDONLY);
+	mapdata = ft_calloc(1, 1);
+	if (!mapdata)
+		exit (1);
 	bytes = 1;
 	while(bytes > 0)
 	{
-		bytes = read(fd, buffer, 50);
-		ft_strjoin_and_free(storage, buffer);
+		bytes = read(fd, buffer, 1000);
+		if (bytes == -1)
+		{
+			free(mapdata);
+			exit (1);
+		}
+		buffer[bytes] = '\0';
+		mapdata = ft_strjoin_and_free(mapdata, buffer);
+		if (!mapdata)
+			exit (1);
 	}
-	while (*storage)
-	{
-		if (storage[i] == '\n')
-			i++;
-		*storage++;
-	}
-	return (free(storage), i);
+	return (mapdata);
 }
 
-
-int	main(char *argv[])
+int	count_lines(char *mapdata) //Counts the number of lines (Y)
 {
-	int		fd;
-	int		fd2;
-	int		*noc;
-	char	*line;
-	char	**points;
-	int		**coordinates_array;
-	int 	i;
+	int		i;
+
+	i = 0;
+	while (*mapdata != '\0')
+	{
+		if (*mapdata == '\n')
+			i++;
+		mapdata++;
+	}
+	return (i);
+}
+
+int	count_coordinates(char *mapdata) //Counts the number of coordinates (X)
+{
+	int		i;
+
+	i = 0;
+	while (*mapdata != '\0')
+	{
+		if (*mapdata == ' ')
+			i++;
+		mapdata++;
+	}
+	return (i);
+}
+
+int	**malloc_2Dmap(char *mapdata)
+{
+	int	**int_array;
+	int	x;
+	int	y;
+	int	i;
+	int	noc;
+
+	x = count_coordinates(mapdata);
+	y = count_lines(mapdata);
+	int_array = malloc(y * sizeof(int *));
+	noc = x / y;
+	i = 0;
+	while (i < y)
+	{
+		int_array[i] = malloc(noc * sizeof(int));
+		i++;
+	}
+	return (int_array);
+}
+
+int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array consisting of all the map coordinates. 
+{
+	int		i;
 	int		j;
-	
-	fd = open(argv[1], O_RDONLY);
-	fd2 = open(argv[1], O_RDONLY);
-	coordinates_array = create_2D_int(fd, &noc);
-	ft_printf("NOC = %d\n", noc);
+	int 	**int_array;
+	char	**points;
+
+	int_array = malloc_2Dmap(mapdata);
+	points = ft_split(mapdata, ' ');
 	i = 0;
 	j = 0;
-	while (1)
+	while (i < y)
 	{
-		line = get_next_line(fd2);
-		if (line == NULL)
-			break ;
-		points = ft_split(line, ' ');
-		while (i < (int)noc)
+		while (j < (x / y))
 		{
-			coordinates_array[j][i] = ft_atoi(points[i]);
-			i++;
+			int_array[i][j] = ft_atoi(*points);
+			points++;
+			j++;
 		}
-		i = 0;
-		j++;
+		int_array[i][j] = 4242; //4242 functions as a null-terminator.
+		j = 0;
+		i++;
 	}
+	return (int_array);
+}
 
-	ft_printf("%d", coordinates_array[2][7]);
-	ft_printf("%d", count_lines(argv[1]));
-	
+void	print_map(int **map, int y)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while(i < y)
+	{
+		while (map[i][j] != 4242)
+		{
+			ft_printf("%d", map[i][j]);
+			j++;
+		}
+		j = 0;
+		ft_printf("\n");
+		i++;
+	}
+}
+
+int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps/10-2.fdf
+{
+	int		fd;
+	char	*mapdata;
+	int		**map;
+	int		x;
+	int		y;
+
+	if (argc != 2)
+		ft_printf("Error, provide executable + mapname in order to run this program.");
+	fd = open(argv[1], O_RDONLY);
+	mapdata = get_mapdata(fd);
+	x = count_coordinates(mapdata);
+	y = count_lines(mapdata);
+	map = create_2Dmap(mapdata, x, y);
+	print_map(map, y);
+	return (0);
 }
