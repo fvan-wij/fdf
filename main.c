@@ -1,8 +1,10 @@
 #include "libft.h"
-#include "fdf.h"
+#include "../includes/fdf.h"
 
 //TO DO
-// * Fix segfaults on bigger/other maps
+// * Fix segfaults on maps without space after last digit> ft_split causes segfaults due to not splitting \n, 
+//											numbers before and right after newline are currently 
+// 											both being stored
 // * Fix parsing for hex values
 // * Merge printf with libft
 
@@ -46,18 +48,26 @@ int	count_lines(char *mapdata) //Counts the number of lines (Y)
 	return (i);
 }
 
-int	count_coordinates(char *mapdata) //Counts the number of coordinates (X)
+int	count_coordinates(char *mapdata)
 {
 	int		i;
+	int		c_count;
 
 	i = 0;
-	while (*mapdata != '\0')
-	{
-		if (*mapdata == ' ')
+	c_count = 0;
+	while (mapdata[i])
+	{	
+		while (mapdata[i] && mapdata[i] != ' ')
+		{
+			if (mapdata[i] == '\n')
+				break ;
 			i++;
-		mapdata++;
+		}
+		c_count++;
+		while (mapdata[i] && (mapdata[i] == ' ' || mapdata[i] == '\n'))
+			i++;
 	}
-	return (i);
+	return (c_count);
 }
 
 int	**malloc_2Dmap(char *mapdata)
@@ -92,9 +102,18 @@ int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array
 	points = ft_split(mapdata, ' ');
 	i = 0;
 	j = 0;
+	
+	int z = 11;
+	// while (i < z)
+	// {
+	// 	ft_printf("points: %s\n", points[i]);
+	// 	i++;
+	// }
+	ft_printf("points: %s\n", points[10]);
+	i = 0;
 	while (i < y)
 	{
-		while (j < (x / y))
+		while (*points && j < (x / y))
 		{
 			int_array[i][j] = ft_atoi(*points);
 			points++;
@@ -136,12 +155,14 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	int		y;
 
 	if (argc != 2)
-		ft_printf("Error, provide executable + mapname in order to run this program.");
+		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+		return (ft_printf("Incorrect fd\n"), 1);
 	mapdata = get_mapdata(fd);
 	x = count_coordinates(mapdata);
 	y = count_lines(mapdata);
 	map = create_2Dmap(mapdata, x, y);
-	print_map(map, y);
+	// print_map(map, y);
 	return (0);
 }
