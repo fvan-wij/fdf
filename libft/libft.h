@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2022/12/22 18:15:19 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2022/12/24 04:29:43 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ int	ft_printspecifier(int specifier, va_list args);
 
 // Custom functions
 char	*ft_strjoin_and_free(char *s1, char *s2);
+char	**ft_split_nl(char const *s, char c);
 
 #endif

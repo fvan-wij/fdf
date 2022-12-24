@@ -2,11 +2,9 @@
 #include "../includes/fdf.h"
 
 //TO DO
-// * Fix segfaults on maps without space after last digit> ft_split causes segfaults due to not splitting \n, 
-//											numbers before and right after newline are currently 
-// 											both being stored
 // * Fix parsing for hex values
-// * Merge printf with libft
+// * Freeing double pointer gives segfaults
+
 
 char	*get_mapdata(int fd)
 {
@@ -91,6 +89,16 @@ int	**malloc_2Dmap(char *mapdata)
 	return (int_array);
 }
 
+void	free_doubleptr(char **ptr, int i)
+{
+	while (i >= 0)
+	{
+		free(ptr[i]);
+		i--;
+	}
+	free(ptr);
+}
+
 int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array consisting of all the map coordinates. 
 {
 	int		i;
@@ -99,18 +107,9 @@ int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array
 	char	**points;
 
 	int_array = malloc_2Dmap(mapdata);
-	points = ft_split(mapdata, ' ');
+	points = ft_split_nl(mapdata, ' ');
 	i = 0;
 	j = 0;
-	
-	int z = 11;
-	// while (i < z)
-	// {
-	// 	ft_printf("points: %s\n", points[i]);
-	// 	i++;
-	// }
-	ft_printf("points: %s\n", points[10]);
-	i = 0;
 	while (i < y)
 	{
 		while (*points && j < (x / y))
@@ -123,7 +122,8 @@ int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array
 		j = 0;
 		i++;
 	}
-	return (int_array);
+	// free_doubleptr(points, x); // <- segfaults
+	return (free(mapdata), int_array);
 }
 
 void	print_map(int **map, int y)
@@ -163,6 +163,6 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	x = count_coordinates(mapdata);
 	y = count_lines(mapdata);
 	map = create_2Dmap(mapdata, x, y);
-	// print_map(map, y);
+	print_map(map, y);
 	return (0);
 }

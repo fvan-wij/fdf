@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
+#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 18:08:39 by fvan-wij          #+#    #+#              #
-#    Updated: 2022/12/22 18:17:43 by fvan-wij         ###   ########.fr        #
+#    Updated: 2022/12/24 04:30:08 by flip             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC			:=	ft_atoi.c \
 			ft_putstr.c \
 			\
 			ft_strjoin_and_free.c \
+			ft_split_nl.c \
 			
 # Regular Colors #############################################
 Black		= "\033[0;30m"		# Black
