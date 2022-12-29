@@ -116,7 +116,8 @@ struct Map	**create_2Dstructarray(char *mapdata, int x, int y) //Creates a new 2
 		while (*points_arr && j < (x / y))
 		{
 			if (ft_strchr(*points_arr, 'x'))
-				ft_printf("%s\n", *points_arr); // ->Convert from array to hex
+					point[i][j].hex = *points_arr;
+			// ft_printf("%s\n", *points_arr); // ->Convert from array to hex
 			point[i][j].z = ft_atoi(*points_arr);
 			points_arr++;
 			j++;
@@ -140,7 +141,9 @@ void	print_map(Map **map, int y)
 	{
 		while (map[i][j].z != 4242)
 		{
-			ft_printf("%d", map[i][j].z);
+			if (map[i][j].hex)
+				ft_printf("%s ", map[i][j].hex);	
+			ft_printf("%d ", map[i][j].z);
 			j++;
 		}
 		j = 0;
