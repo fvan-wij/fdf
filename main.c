@@ -1,9 +1,10 @@
-#include "libft.h"
+#include "../libft/libft.h"
 #include "../includes/fdf.h"
 
 //TO DO
-// * Fix parsing for hex values
+// * Write a function that converts a hexadecimal string to a hexadecimal integer
 // * Freeing double pointer gives segfaults
+
 
 
 char	*get_mapdata(int fd)
@@ -57,20 +58,20 @@ int	count_coordinates(char *mapdata)
 	{	
 		while (mapdata[i] && mapdata[i] != ' ')
 		{
-			if (mapdata[i] == '\n')
+			if (mapdata[i] == '\n' || mapdata[i] == ',')
 				break ;
 			i++;
 		}
 		c_count++;
-		while (mapdata[i] && (mapdata[i] == ' ' || mapdata[i] == '\n'))
+		while (mapdata[i] && (mapdata[i] == ' ' || mapdata[i] == '\n' || mapdata[i] == ','))
 			i++;
 	}
 	return (c_count);
 }
 
-int	**malloc_2Dmap(char *mapdata)
+struct Map	**malloc_2Dstructarray(char *mapdata)
 {
-	int	**int_array;
+	Map **point;
 	int	x;
 	int	y;
 	int	i;
@@ -78,15 +79,15 @@ int	**malloc_2Dmap(char *mapdata)
 
 	x = count_coordinates(mapdata);
 	y = count_lines(mapdata);
-	int_array = malloc(y * sizeof(int *));
+	point = malloc(y * sizeof(Map *));
 	noc = x / y;
 	i = 0;
 	while (i < y)
 	{
-		int_array[i] = malloc(noc * sizeof(int));
+		point[i] = malloc(noc * sizeof(Map));
 		i++;
 	}
-	return (int_array);
+	return (point);
 }
 
 void	free_doubleptr(char **ptr, int i)
@@ -99,34 +100,36 @@ void	free_doubleptr(char **ptr, int i)
 	free(ptr);
 }
 
-int	**create_2Dmap(char *mapdata, int x, int y) //Creates a new 2D integer array consisting of all the map coordinates. 
+struct Map	**create_2Dstructarray(char *mapdata, int x, int y) //Creates a new 2D integer array consisting of all the map coordinates. 
 {
 	int		i;
 	int		j;
-	int 	**int_array;
-	char	**points;
+	char	**points_arr;
+	Map		**point;
 
-	int_array = malloc_2Dmap(mapdata);
-	points = ft_split_nl(mapdata, ' ');
+	point = malloc_2Dstructarray(mapdata);
+	points_arr = ft_split_nl(mapdata, ' ');
 	i = 0;
 	j = 0;
 	while (i < y)
 	{
-		while (*points && j < (x / y))
+		while (*points_arr && j < (x / y))
 		{
-			int_array[i][j] = ft_atoi(*points);
-			points++;
+			if (ft_strchr(*points_arr, 'x'))
+				ft_printf("%s\n", *points_arr); // ->Convert from array to hex
+			point[i][j].z = ft_atoi(*points_arr);
+			points_arr++;
 			j++;
 		}
-		int_array[i][j] = 4242; //4242 functions as a null-terminator.
+		point[i][j].z = 4242; //4242 functions as a null-terminator.
 		j = 0;
 		i++;
 	}
 	// free_doubleptr(points, x); // <- segfaults
-	return (free(mapdata), int_array);
+	return (free(mapdata), point);
 }
 
-void	print_map(int **map, int y)
+void	print_map(Map **map, int y)
 {
 	int i;
 	int	j;
@@ -135,9 +138,9 @@ void	print_map(int **map, int y)
 	j = 0;
 	while(i < y)
 	{
-		while (map[i][j] != 4242)
+		while (map[i][j].z != 4242)
 		{
-			ft_printf("%d", map[i][j]);
+			ft_printf("%d", map[i][j].z);
 			j++;
 		}
 		j = 0;
@@ -150,7 +153,7 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 {
 	int		fd;
 	char	*mapdata;
-	int		**map;
+	Map		**point;
 	int		x;
 	int		y;
 
@@ -162,7 +165,7 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	mapdata = get_mapdata(fd);
 	x = count_coordinates(mapdata);
 	y = count_lines(mapdata);
-	map = create_2Dmap(mapdata, x, y);
-	print_map(map, y);
+	point = create_2Dstructarray(mapdata, x, y);
+	print_map(point, y);
 	return (0);
 }
