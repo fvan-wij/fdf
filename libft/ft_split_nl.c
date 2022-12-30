@@ -6,7 +6,7 @@
 /*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 04:29:16 by flip              #+#    #+#             */
-/*   Updated: 2022/12/24 04:33:02 by flip             ###   ########.fr       */
+/*   Updated: 2022/12/29 15:09:56 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static int	word_counter(char const *s, char c)
 	{	
 		while (s[i])
 		{
-			if (s[i] == c || s[i] == '\n')
+			if (s[i] == c || s[i] == '\n' || s[i] == ',')
 				break ;
 		i++;
 		}
 		w_count++;
 		while (s[i])
 		{
-			if (s[i] != c && s[i] != '\n')
+			if (s[i] != c && s[i] != '\n' && s[i] != ',')
 				break ;
 		i++;
 		}
@@ -56,7 +56,7 @@ static int	word_length(char const *s, int i, char c)
 	int	j;
 
 	j = 0;
-	while ((s[i] != c && s[i] != '\n') && s[i])
+	while ((s[i] != c && s[i] != '\n' && s[i] != ',') && s[i])
 	{
 		i++;
 		j++;
@@ -75,7 +75,7 @@ static char	**split_words(char **str_array, char const *s, char c, int words)
 	len = 0;
 	while (j < words && s[i])
 	{
-		while (s[i] == c || s[i] == '\n')
+		while (s[i] == c || s[i] == '\n' || s[i] == ',')
 			i++;
 		len = word_length(s, i, c);
 		str_array[j] = ft_substr(s, i, len);

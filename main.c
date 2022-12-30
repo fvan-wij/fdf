@@ -3,19 +3,20 @@
 
 //TO DO
 // * Write a function that converts a hexadecimal string to a hexadecimal integer
-// * Freeing double pointer gives segfaults
-
+// * Fix leaks lol
 
 
 char	*get_mapdata(int fd)
 {
 	char	*mapdata;
-	char	buffer[1000];
+	// char	buffer[1000];
+	char	*buffer;
 	int		bytes;
 
 	mapdata = ft_calloc(1, 1);
 	if (!mapdata)
 		exit (1);
+	buffer = malloc(sizeof(char) * 1001);
 	bytes = 1;
 	while(bytes > 0)
 	{
@@ -30,7 +31,7 @@ char	*get_mapdata(int fd)
 		if (!mapdata)
 			exit (1);
 	}
-	return (mapdata);
+	return (free(buffer), mapdata);
 }
 
 int	count_lines(char *mapdata) //Counts the number of lines (Y)
@@ -58,12 +59,12 @@ int	count_coordinates(char *mapdata)
 	{	
 		while (mapdata[i] && mapdata[i] != ' ')
 		{
-			if (mapdata[i] == '\n' || mapdata[i] == ',')
+			if (mapdata[i] == '\n')
 				break ;
 			i++;
 		}
 		c_count++;
-		while (mapdata[i] && (mapdata[i] == ' ' || mapdata[i] == '\n' || mapdata[i] == ','))
+		while (mapdata[i] && (mapdata[i] == ' ' || mapdata[i] == '\n'))
 			i++;
 	}
 	return (c_count);
@@ -79,54 +80,82 @@ struct Map	**malloc_2Dstructarray(char *mapdata)
 
 	x = count_coordinates(mapdata);
 	y = count_lines(mapdata);
-	point = malloc(y * sizeof(Map *));
+	point = ft_calloc(y + 1, sizeof(Map *));
 	noc = x / y;
 	i = 0;
 	while (i < y)
 	{
-		point[i] = malloc(noc * sizeof(Map));
+		point[i] = ft_calloc(noc + 1, sizeof(Map));
 		i++;
 	}
 	return (point);
 }
 
-void	free_doubleptr(char **ptr, int i)
+void	free_doubleptr(char **ptr, int numberOfDimensions)
 {
-	while (i >= 0)
+	int i;
+
+	i = 0;
+	while (i < numberOfDimensions)
 	{
 		free(ptr[i]);
-		i--;
+		i++;
 	}
 	free(ptr);
 }
+
+void	free_2Dstructarray(char *mapdata, Map **point)
+{
+	int	x;
+	int	i;
+
+	x = count_coordinates(mapdata);
+	i = 0;
+	while (i < x)
+	{
+		free(point[i]);
+		i++;
+	}
+	free(point);
+}
+
 
 struct Map	**create_2Dstructarray(char *mapdata, int x, int y) //Creates a new 2D integer array consisting of all the map coordinates. 
 {
 	int		i;
 	int		j;
+	int		k;
 	char	**points_arr;
 	Map		**point;
 
 	point = malloc_2Dstructarray(mapdata);
+	if (!point)
+		return (NULL);
 	points_arr = ft_split_nl(mapdata, ' ');
 	i = 0;
 	j = 0;
+	k = 0;
 	while (i < y)
 	{
-		while (*points_arr && j < (x / y))
+		while (points_arr[k] && j < (x / y))
 		{
-			if (ft_strchr(*points_arr, 'x'))
-					point[i][j].hex = *points_arr;
 			// ft_printf("%s\n", *points_arr); // ->Convert from array to hex
-			point[i][j].z = ft_atoi(*points_arr);
-			points_arr++;
+			point[i][j].z = ft_atoi(points_arr[k]);
+			k++;
+			if (ft_strchr(points_arr[k], 'x')) //<- segfault due to accessing points_array after NULL terminator
+			{
+					point[i][j].hex = ft_strdup(points_arr[k]);
+					k++;
+			}
+			else
+				point[i][j].hex = NULL;
 			j++;
 		}
 		point[i][j].z = 4242; //4242 functions as a null-terminator.
 		j = 0;
 		i++;
 	}
-	// free_doubleptr(points, x); // <- segfaults
+	free_doubleptr(points_arr, x); // <- segfaults
 	return (free(mapdata), point);
 }
 
@@ -141,9 +170,9 @@ void	print_map(Map **map, int y)
 	{
 		while (map[i][j].z != 4242)
 		{
+			ft_printf("%d ", map[i][j].z);
 			if (map[i][j].hex)
 				ft_printf("%s ", map[i][j].hex);	
-			ft_printf("%d ", map[i][j].z);
 			j++;
 		}
 		j = 0;
@@ -170,5 +199,6 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	y = count_lines(mapdata);
 	point = create_2Dstructarray(mapdata, x, y);
 	print_map(point, y);
+	// free_2Dstructarray(mapdata, point);
 	return (0);
 }
