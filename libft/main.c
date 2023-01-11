@@ -142,7 +142,7 @@ struct Map	**create_2Dstructarray(char *mapdata, int x, int y) //Creates a new 2
 			// ft_printf("%s\n", *points_arr); // ->Convert from array to hex
 			point[i][j].z = ft_atoi(points_arr[k]);
 			k++;
-			if (ft_strchr(points_arr[k], 'x'))
+			if (ft_strchr(points_arr[k], 'x')) //<- segfault due to accessing points_array after NULL terminator
 			{
 					point[i][j].hex = ft_strdup(points_arr[k]);
 					k++;
@@ -155,7 +155,7 @@ struct Map	**create_2Dstructarray(char *mapdata, int x, int y) //Creates a new 2
 		j = 0;
 		i++;
 	}
-	free_doubleptr(points_arr, x);
+	free_doubleptr(points_arr, x); // <- segfaults
 	return (free(mapdata), point);
 }
 
@@ -199,6 +199,6 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	y = count_lines(mapdata);
 	point = create_2Dstructarray(mapdata, x, y);
 	print_map(point, y);
-	free_2Dstructarray(mapdata, point);
+	// free_2Dstructarray(mapdata, point);
 	return (0);
 }

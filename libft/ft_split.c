@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:17:02 by fvan-wij          #+#    #+#             */
-/*   Updated: 2022/10/31 15:32:55 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2022/12/24 04:32:54 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,3 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	return (str_array);
 }
-
-// int	main(void)
-// {
-// 	int	i = 0;
-// 	char **test = ft_split("hello!", ' ');
-
-// 	while (test[i] != '\0')
-// 	{
-// 		printf("%s\n", test[i]);
-// 		i++;
-// 	}
-// 	//printf("%s", ft_split("Butter Garlic Pepper OliveOil", " "));
-// }

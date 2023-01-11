@@ -3,24 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
+#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2022/12/20 12:41:54 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/01/11 14:36:57 by flip             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= fdf
 CFLAGS		:= -Wall -Werror -Wextra
-LIBMLX		:= ./mlx42
+LIBMLX		:= ./MLX42
 LIBFT		:= ./libft/libft.a
 
 HEADERS		:= -I ./includes -I $(LIBMLX)/include -I ./libft
-LIBS		:= $(LIBMLX)/libmlx42.a -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-SRCS		:= main.c
+LIBS		:= $(LIBMLX)/libmlx42.a
+SRCS		:= test.c
 OBJS		:= ${SRCS:.c=.o}
 
+# LINUX		:= -ldl `pkg-config --libs glfw3` -lgflw3 -pthread -lm
+LINUX		:= -ldl -L/lib/x86_64-linux-gnu/libglfw.so -pthread -lm
+
 # **************************************************************************** #
+
+# ifdef LINUX
+# 	LIBS += -lglfw -ldl -pthread -lm 
+# endif
+
+# ifndef LINUX 
+# 	LIBS += -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+# endif
 
 all: libmlx $(NAME)
 
@@ -32,7 +43,7 @@ libmlx:
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C libft
-	@$(CC) $^ $(LIBS) $(LIBFT) $(HEADERS) -o $(NAME)
+	@$(CC) $^ $(LIBS) $(LINUX) $(LIBFT) $(HEADERS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)
