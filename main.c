@@ -202,5 +202,5 @@ int32_t	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_
 	y = count_lines(mapdata);
 	point = create_2Dstructarray(mapdata, x, y);
 	print_map(point, y);
-	free_2Dstructarray(mapdata, point);
+	// free_2Dstructarray(mapdata, point);
 }

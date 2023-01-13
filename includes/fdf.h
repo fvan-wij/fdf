@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/11 18:11:07 by flip             ###   ########.fr       */
+/*   Updated: 2023/01/13 21:25:13 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,16 @@ typedef struct Map
 	int		z;
 	char	*hex;
 
-} Map;
+}	Map;
 
+typedef struct s_coordinate
+{
+	int				x;
+	struct s_list	*next;
+}	t_coordinate;
+
+void	ft_insert_back(t_coordinate **lst, int coordinate);
+void	print_tlist(t_coordinate *head);
+t_coordinate	*array_to_list(char **arr, int n);
 
 #endif

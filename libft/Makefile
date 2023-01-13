@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
+#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 18:08:39 by fvan-wij          #+#    #+#              #
-#    Updated: 2022/12/24 04:30:08 by flip             ###   ########.fr        #
+#    Updated: 2023/01/13 21:19:21 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,9 @@ SRC			:=	ft_atoi.c \
 			ft_lstclear_bonus.c \
 			ft_lstiter_bonus.c \
 			ft_lstmap_bonus.c \
+			\
+			get_next_line.c \
+			get_next_line_utils.c \
 			\
 			ft_printf.c \
 			ft_printspecifier.c \
