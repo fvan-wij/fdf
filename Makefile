@@ -6,32 +6,35 @@
 #    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/01/11 14:36:57 by flip             ###   ########.fr        #
+#    Updated: 2023/01/13 17:06:44 by flip             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= fdf
-CFLAGS		:= -Wall -Werror -Wextra
+CFLAGS		:= -Wall -Wextra #-Werror is omitted to be able to compile with warnings!
 LIBMLX		:= ./MLX42
 LIBFT		:= ./libft/libft.a
 
 HEADERS		:= -I ./includes -I $(LIBMLX)/include -I ./libft
 LIBS		:= $(LIBMLX)/libmlx42.a
-SRCS		:= test.c
+SRCS		:= main.c
 OBJS		:= ${SRCS:.c=.o}
 
-# LINUX		:= -ldl `pkg-config --libs glfw3` -lgflw3 -pthread -lm
-LINUX		:= -ldl -L/lib/x86_64-linux-gnu/libglfw.so -pthread -lm
+OS			:= -I ./MLX42
 
 # **************************************************************************** #
 
-# ifdef LINUX
-# 	LIBS += -lglfw -ldl -pthread -lm 
-# endif
+ifdef DEBUG #Compile with DEBUG=1
+	OS += -g -fsanitize=address
+endif
 
-# ifndef LINUX 
-# 	LIBS += -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-# endif
+ifdef LINUX #Compile with LINUX=1
+	OS += -lglfw -ldl -pthread -lm 
+endif
+
+ifndef LINUX
+	OS += -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+endif
 
 all: libmlx $(NAME)
 
@@ -43,7 +46,7 @@ libmlx:
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C libft
-	@$(CC) $^ $(LIBS) $(LINUX) $(LIBFT) $(HEADERS) -o $(NAME)
+	@$(CC) $^ $(LIBS) $(OS) $(LIBFT) $(HEADERS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)

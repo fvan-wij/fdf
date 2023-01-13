@@ -6,7 +6,7 @@
 /*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/06 15:31:07 by flip             ###   ########.fr       */
+/*   Updated: 2023/01/11 18:11:07 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdio.h>
 # include <memory.h>
 # include <unistd.h>
+# include "glfw3.h"
+// # include <MLX42/MLX42.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define WIDTH 900

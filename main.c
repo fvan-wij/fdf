@@ -1,10 +1,12 @@
 #include "../libft/libft.h"
 #include "../includes/fdf.h"
+#include "../MLX42/include/MLX42/MLX42.h"
 
 //TO DO
 // * Write a function that converts a hexadecimal string to a hexadecimal integer
 // * Fix leaks lol
 
+mlx_image_t	*g_img;
 
 char	*get_mapdata(int fd)
 {
@@ -181,13 +183,14 @@ void	print_map(Map **map, int y)
 	}
 }
 
-int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps/10-2.fdf
+int32_t	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps/10-2.fdf
 {
 	int		fd;
 	char	*mapdata;
 	Map		**point;
 	int		x;
 	int		y;
+	mlx_t	*mlx;
 
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
@@ -200,5 +203,4 @@ int	main(int argc, char *argv[]) //Compile as follows: make && ./fdf ./test_maps
 	point = create_2Dstructarray(mapdata, x, y);
 	print_map(point, y);
 	free_2Dstructarray(mapdata, point);
-	return (0);
 }

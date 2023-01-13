@@ -1,5 +1,6 @@
 #include "../libft/libft.h"
 #include "../includes/fdf.h"
+#include <MLX42/MLX42.h>
 
 mlx_image_t	*g_img;
 
