@@ -6,7 +6,7 @@
 /*   By: flip <flip@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/15 17:54:51 by flip          #+#    #+#                 */
-/*   Updated: 2023/01/15 18:01:20 by flip          ########   odam.nl         */
+/*   Updated: 2023/01/15 20:34:31 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	ft_insert_back(t_coordinate **lst, int coordinate)
 	t_coordinate	*new;
 	t_coordinate	*current;
 
-	new = ft_calloc(1, sizeof(t_coordinate));
+	new = malloc(sizeof(t_coordinate));
 	new->x = coordinate;
+	ft_printf("Node->x:%d\n", new->x);
 	new->next = NULL;
 	if (*lst == NULL)
 		*lst = new;
@@ -32,24 +33,22 @@ void	ft_insert_back(t_coordinate **lst, int coordinate)
 	}
 }
 
-void	print_tlist(t_coordinate *head)
-{
-	t_coordinate	*current;
+// void	print_tlist(t_coordinate *head)
+// {
+// 	t_coordinate	*current;
 
-	current = head;
-	while (current)
-	{
-		ft_printf("Node->x:%d\n", current->x);
-		current = current->next;
-	}
-}
+// 	current = head;
+// 	while (current)
+// 	{
+// 		ft_printf("Node->x:%d\n", current->x);
+// 		current = current->next;
+// 	}
+// }
 
-t_coordinate	*array_to_list(char **arr, int n)
+t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head)
 {
 	int		i;
-	t_coordinate	*head;
 
-	head = NULL; // -> Not intilializing head of linked list causes segfaults on Linux!
 	i = 0;
 	while (i < n)
 	{
