@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   t_coordinate_utils.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 21:26:19 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/13 22:48:54 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   t_coordinate_utils.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/15 17:54:51 by flip          #+#    #+#                 */
+/*   Updated: 2023/01/15 18:01:20 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_insert_back(t_coordinate **lst, int coordinate)
 	t_coordinate	*new;
 	t_coordinate	*current;
 
-	new = malloc(sizeof(t_coordinate));
+	new = ft_calloc(1, sizeof(t_coordinate));
 	new->x = coordinate;
 	new->next = NULL;
 	if (*lst == NULL)
@@ -49,6 +49,7 @@ t_coordinate	*array_to_list(char **arr, int n)
 	int		i;
 	t_coordinate	*head;
 
+	head = NULL; // -> Not intilializing head of linked list causes segfaults on Linux!
 	i = 0;
 	while (i < n)
 	{
