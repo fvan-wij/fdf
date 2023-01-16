@@ -1,41 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_map.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/15 20:37:08 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/01/16 19:26:03 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "../includes/fdf.h"
-#include "../MLX42/include/MLX42/MLX42.h"
+// #include "../libft/libft.h"
+// #include "../includes/fdf.h"
+#include "includes/fdf.h"
+#include "libft/libft.h"
+#include "MLX42/include/MLX42/MLX42.h"
+// #include "../MLX42/include/MLX42/MLX42.h"
 
-#define ROW_END	4242
-#define	MAP_END	42424242
-
-void	free_split_points(char **split_points)
+struct Map	**convert_list_to_struct(t_coordinate *head, Map **map)
 {
-	int	i;
-
+	t_coordinate	*current;
+	int				i;
+	int				j;
+	
+	current = head;
 	i = 0;
-	while (split_points[i])
+	j = 0;
+	while (current != NULL)
 	{
-		free(split_points[i]);
-		i++;
+		if (current->nl_boolean == 0)
+		{
+			map[i][j].z = current->x;
+			map[i][j].nl_boolean = 0;
+			j++;
+		}
+		else if (current->nl_boolean == 1)
+		{
+			map[i][j].nl_boolean = 1;
+			j = 0;
+			i++;
+		}
+		current = current->next;
 	}
-	free(split_points);
+	return (map);
 }
 
 struct Map	**malloc_2Dstructarray(int rows, int columns, t_coordinate *head)
 {
 	Map				**map;
-	t_coordinate	*current;
 	int				i;
-	int				j;
 
 	map = ft_calloc(rows + 1, sizeof(Map *));
 	i = 0;
@@ -44,23 +57,7 @@ struct Map	**malloc_2Dstructarray(int rows, int columns, t_coordinate *head)
 		map[i] = ft_calloc(columns + 1, sizeof(Map));
 		i++;
 	}
-	current = head;
-	// i = 0;
-	// j = 0;
-	// ft_printf("Size of lst = %d\n", ft_lstsize(current));
-	// while (current != NULL)
-	// {
-	// 	map[i][j].z = current->x;
-	// 	j++;
-	// 	if (j >= columns)
-	// 	{
-	// 		map[i][j].z = ROW_END;
-	// 		j = 0;
-	// 		i++;
-	// 	}
-	// 	current = current->next;
-	// }
-	// map[i][j].z = MAP_END;
+	map = convert_list_to_struct(head, map);
 	return (map);
 }
 
@@ -90,7 +87,7 @@ struct	Map	**create_2Dstructarray(int fd, Map **map, t_coordinate *head)
 		n = 0;
 		rows++;
 	}
-	ft_printf("i = %d\ncolumns = %d\n", rows, columns);
+	// ft_printf("i = %d\ncolumns = %d\n", rows, columns);
 	map = malloc_2Dstructarray(rows, columns, head);
 	return (map);
 }
@@ -98,24 +95,35 @@ struct	Map	**create_2Dstructarray(int fd, Map **map, t_coordinate *head)
 void	print_map(Map **map)
 {
 	int i;
-	
+	int	j;
+
 	i = 0;
-	while(map[0][i].z != MAP_END)
+	j = 0;
+	while(map[i])
 	{
-		if (map[0][i].z != ROW_END)
-			ft_printf("%d ", map[0][i].z);
-		if (map[0][i].z == ROW_END)
-			ft_printf("\n");
+		while (!map[i][j].nl_boolean)
+		{
+			ft_printf("%d ", map[i][j].z); 
+			if (map[i][j].z == ROW_END)
+			{
+				j = 0;
+				break ;
+			}
+			j++;
+		}
+		j = 0;
+		ft_printf("\n");
 		i++;
 	}
 }
 
-int	main(int argc, char *argv[])
+struct Map **parse_map(int argc, char *argv[], Map **map)
 {
-	int	fd;
-	Map	**map;
-	t_coordinate *head;
+	int				fd;
+	// Map				**map;
+	t_coordinate 	*head;
 
+	// map = NULL;
 	head = NULL; // -> Not intilializing head of linked list causes segfaults on Linux!
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
@@ -123,7 +131,7 @@ int	main(int argc, char *argv[])
 	if (fd == -1)
 		return (ft_printf("Incorrect fd\n"), 1);
 	map = create_2Dstructarray(fd, map, head);
-	// print_map(map);
-	// ft_printf("Map Z = %d\n", map[0][22].z);
+	print_map(map);
+	init_window(map);
 	return (0); //Success
 }

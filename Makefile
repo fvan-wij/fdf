@@ -6,7 +6,7 @@
 #    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/01/13 21:28:30 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/01/16 19:53:46 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ HEADERS		:= -I ./includes -I $(LIBMLX)/include -I ./libft
 LIBS		:= $(LIBMLX)/libmlx42.a
 SRCS		:= 	parse_map.c \
 				t_coordinate_utils.c \
+				memory_utils.c \
+				draw_map.c \
+				main.c \
 
-OBJS		:= ${SRCS:.c=.o}
+OBJS		:=	${SRCS:.c=.o}
 
 OS			:= -I ./MLX42
 
