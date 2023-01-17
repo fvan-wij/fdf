@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/16 19:12:12 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:54:19 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <memory.h>
+#include<math.h>
 
 mlx_image_t	*g_img;
 
@@ -35,37 +36,48 @@ void	hook(void *param)
 		g_img->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
 		g_img->instances[0].x += 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+		g_img->instances[0].x += 5;
+}
+
+void iso(mlx_image_t* image, int x, int y, int z)
+{
+    int previous_x; 
+    int previous_y;
+	int	tileWidth;
+
+    previous_x = x;
+    previous_y = y;
+	tileWidth = 50;
+    x = (x - y) * tileWidth;
+    y = (previous_x + y + - z) * (tileWidth / 2);
+	
+	printf("x = %i	y = %i\n", x, y);
+	mlx_put_pixel(image, x + 850, y + 200, 0xFFFFFFFF);
 }
 
 void	render_map(Map **map, mlx_image_t* image)
 {
-	int i;
-	int	j;
-	int	k;
-	int offset;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	offset = 0;
-	while (!map[0][k].nl_boolean)
-		k++;
-	ft_printf("K = %d\n", k);
-	offset = WIDTH / k;
-	while(map[i])
+	int x;
+	int	y;
+	
+	x = 0;
+	y = 0;
+	while(map[y])
 	{
-		while (!map[i][j].nl_boolean)
+		while (!map[y][x].nl_boolean)
 		{
-			mlx_put_pixel(image, i * offset, j * offset, 0xFFFFFFFFF);
-			if (map[i][j].z == ROW_END)
+			ft_printf("map = %d\n", map[y][x].z);
+			iso(image, x, y, map[y][x].z);
+			if (map[y][x].z == ROW_END)
 			{
-				j = 0;
+				x = 0;
 				break ;
 			}
-			j++;
+			x++;
 		}
-		j = 0;
-		i++;
+		x = 0;
+		y++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/16 19:26:03 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:06:03 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,18 +120,15 @@ void	print_map(Map **map)
 struct Map **parse_map(int argc, char *argv[], Map **map)
 {
 	int				fd;
-	// Map				**map;
 	t_coordinate 	*head;
 
-	// map = NULL;
 	head = NULL; // -> Not intilializing head of linked list causes segfaults on Linux!
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (ft_printf("Incorrect fd\n"), 1);
+		return (-1);
 	map = create_2Dstructarray(fd, map, head);
-	print_map(map);
-	init_window(map);
-	return (0); //Success
+	// print_map(map);
+	return (map);
 }
