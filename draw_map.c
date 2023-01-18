@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/17 18:54:19 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:38:24 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ void iso(mlx_image_t* image, int x, int y, int z)
 
     previous_x = x;
     previous_y = y;
-	tileWidth = 50;
+	tileWidth = 10;
+	ft_printf("Pre x = %i	y = %i\n", x, y);
     x = (x - y) * tileWidth;
     y = (previous_x + y + - z) * (tileWidth / 2);
+	ft_printf("Post x = %i	y = %i\n", x, y);
+	if ((x > 0 && x < image->width) && (y > 0 && y < image->height))
+		mlx_put_pixel(image, x + (WIDTH/2), y + (HEIGHT/2), 0xFFFFFFFF);
 	
-	printf("x = %i	y = %i\n", x, y);
-	mlx_put_pixel(image, x + 850, y + 200, 0xFFFFFFFF);
 }
 
 void	render_map(Map **map, mlx_image_t* image)
@@ -65,11 +67,11 @@ void	render_map(Map **map, mlx_image_t* image)
 	y = 0;
 	while(map[y])
 	{
-		while (!map[y][x].nl_boolean)
+		while (!map[y][x].end_of_row)
 		{
-			ft_printf("map = %d\n", map[y][x].z);
+			// ft_printf("map = %d\n", map[y][x].z);
 			iso(image, x, y, map[y][x].z);
-			if (map[y][x].z == ROW_END)
+			if (map[y][x].end_of_row == 1)
 			{
 				x = 0;
 				break ;

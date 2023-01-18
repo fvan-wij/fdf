@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/01/16 18:20:50 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:23:00 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "includes/fdf.h"
 #include "libft/libft.h"
 
-void	ft_insert_back(t_coordinate **lst, int coordinate, int nl_boolean)
+void	ft_insert_back(t_coordinate **lst, int coordinate, int row_end)
 {
 	t_coordinate	*new;
 	t_coordinate	*current;
 
 	new = malloc(sizeof(t_coordinate));
-	new->x = coordinate;
-	new->nl_boolean = nl_boolean;
+	new->z = coordinate;
+	new->end_of_row = row_end;
 	// ft_printf("Node->x:%d	Node->nl_boolean:%d\n", new->x, new->nl_boolean);
 	new->next = NULL;
 	if (*lst == NULL)
@@ -43,7 +43,7 @@ void	print_tlist(t_coordinate *head)
 	current = head;
 	while (current)
 	{
-		ft_printf("Node->x:%d\n", current->x);
+		ft_printf("Node->x:%d\n", current->z);
 		current = current->next;
 	}
 }
@@ -55,10 +55,10 @@ t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head)
 	i = 0;
 	while (i <= n)
 	{
-		if (i == n) //-> No space after last coordinate followed by \n
-			ft_insert_back(&head, ROW_END, 1);
+		if (i == n)
+			ft_insert_back(&head, 0, 1); // Toggle end_of_row to true
 		else
-			ft_insert_back(&head, ft_atoi(arr[i]), 0);
+			ft_insert_back(&head, ft_atoi(arr[i]), 0); // Toggle end_of_row to false
 		i++;
 	}
 	return (head);

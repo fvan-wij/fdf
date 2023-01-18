@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/17 17:06:03 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:17:34 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ struct Map	**convert_list_to_struct(t_coordinate *head, Map **map)
 	j = 0;
 	while (current != NULL)
 	{
-		if (current->nl_boolean == 0)
+		if (current->end_of_row == 0)
 		{
-			map[i][j].z = current->x;
-			map[i][j].nl_boolean = 0;
+			map[i][j].z = current->z;
+			map[i][j].end_of_row = 0;
 			j++;
 		}
-		else if (current->nl_boolean == 1)
+		else if (current->end_of_row == 1)
 		{
-			map[i][j].nl_boolean = 1;
+			map[i][j].end_of_row = 1;
 			j = 0;
 			i++;
 		}
@@ -101,10 +101,10 @@ void	print_map(Map **map)
 	j = 0;
 	while(map[i])
 	{
-		while (!map[i][j].nl_boolean)
+		while (!map[i][j].end_of_row)
 		{
 			ft_printf("%d ", map[i][j].z); 
-			if (map[i][j].z == ROW_END)
+			if (map[i][j].end_of_row == 1)
 			{
 				j = 0;
 				break ;
@@ -117,7 +117,7 @@ void	print_map(Map **map)
 	}
 }
 
-struct Map **parse_map(int argc, char *argv[], Map **map)
+struct Map	**parse_map(int argc, char *argv[], t_meta meta)
 {
 	int				fd;
 	t_coordinate 	*head;
@@ -126,9 +126,9 @@ struct Map **parse_map(int argc, char *argv[], Map **map)
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	map = create_2Dstructarray(fd, map, head);
-	// print_map(map);
-	return (map);
+	// if (fd == -1)
+	// 	return (-1);
+	meta.map = create_2Dstructarray(fd, meta.map, head);
+	print_map(meta.map);
+	return (meta.map);
 }

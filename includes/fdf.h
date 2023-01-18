@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/16 19:22:38 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:18:25 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 // # include <MLX42/MLX42.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIDTH 900
-# define HEIGHT 900
+# define WIDTH 1800
+# define HEIGHT 1800
 
 # define 	ROW_END	4242
 # define	MAP_END	42424242
@@ -33,19 +33,29 @@
 typedef struct Map
 {
 	int		z;
-	int		nl_boolean;
-	char	*hex;
+	int		iso_x;
+	int		iso_y;
+	int		end_of_row;
+	int		color;
 }	Map;
+
+typedef struct t_meta
+{
+	Map **map;
+	int columns;
+	int rows;
+} t_meta;
 
 typedef struct s_coordinate
 {
-	int				x;
-	int				nl_boolean;
+	int				z;
+	int				color;
+	int				end_of_row;
 	struct s_list	*next;
 }	t_coordinate;
 
 // LIST UTILS
-void			ft_insert_back(t_coordinate **lst, int coordinate, int nl_boolean);
+void			ft_insert_back(t_coordinate **lst, int coordinate, int row_end);
 void			print_tlist(t_coordinate *head);
 t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head);
 
@@ -53,7 +63,7 @@ t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head);
 void			free_split_points(char **split_points);
 
 // RENDERING & MLX
-int32_t	init_window(Map **map);
-struct Map **parse_map(int argc, char *argv[], Map **map);
+int32_t			init_window(Map **map);
+// struct Map	**parse_map(int argc, char *argv[], t_meta *meta);
 
 #endif
