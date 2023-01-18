@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw_map.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/18 16:38:24 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   draw_map.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/18 22:58:58 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	hook(void *param)
 		g_img->instances[0].x += 5;
 }
 
-void iso(mlx_image_t* image, int x, int y, int z)
+void iso(mlx_image_t* image, int x, int y, Map **map)
 {
     int previous_x; 
     int previous_y;
@@ -48,14 +48,48 @@ void iso(mlx_image_t* image, int x, int y, int z)
 
     previous_x = x;
     previous_y = y;
-	tileWidth = 10;
-	ft_printf("Pre x = %i	y = %i\n", x, y);
-    x = (x - y) * tileWidth;
-    y = (previous_x + y + - z) * (tileWidth / 2);
-	ft_printf("Post x = %i	y = %i\n", x, y);
-	if ((x > 0 && x < image->width) && (y > 0 && y < image->height))
-		mlx_put_pixel(image, x + (WIDTH/2), y + (HEIGHT/2), 0xFFFFFFFF);
+	tileWidth = 20;
+    map[y][x].iso_x = (x - y) * tileWidth + (WIDTH/2);
+    map[y][x].iso_y = (previous_x + y - map[y][x].z) * (tileWidth / 2) + 450;
+	// if ((map[y][x].iso_x  > 0 && map[y][x].iso_x  < WIDTH) && (map[y][x].iso_y  > 0 && map[y][x].iso_y < HEIGHT))
+	// 	mlx_put_pixel(image, map[y][x].iso_x, map[y][x].iso_y, 0xFFFFFFFF);
 	
+}
+
+void	draw_line(mlx_image_t *image, int x0, int y0, int x1, int y1)
+{
+	int dx;
+	int dy;
+	int p;
+	int x;
+	int y;
+	
+	dx = x1 - x0;
+	dy = y1 - y0;
+
+	x = x0;
+	y = y0;
+	
+	p = 2 * dy - dx;
+ 
+	while(x < x1)
+	{
+		// ft_printf("YEET");
+		if(p >= 0)
+		{
+			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
+				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+			y = y + 1;
+			p = p + 2 * dy - 2 * dx;
+		}
+		else
+		{
+			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
+				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+			p = p + 2 * dy;
+		}
+		x = x + 1;
+	}
 }
 
 void	render_map(Map **map, mlx_image_t* image)
@@ -69,13 +103,9 @@ void	render_map(Map **map, mlx_image_t* image)
 	{
 		while (!map[y][x].end_of_row)
 		{
-			// ft_printf("map = %d\n", map[y][x].z);
-			iso(image, x, y, map[y][x].z);
-			if (map[y][x].end_of_row == 1)
-			{
-				x = 0;
-				break ;
-			}
+			iso(image, x, y, map);
+			if (x > 1)
+				draw_line(image, map[y][x - 1].iso_x, map[y][x - 1].iso_y, map[y][x].iso_x, map[y][x].iso_y);
 			x++;
 		}
 		x = 0;
@@ -92,6 +122,7 @@ int32_t	init_window(Map **map)
 		exit(EXIT_FAILURE);
 	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	render_map(map, g_img);
+	// ft_printf("iso_x = %d\n", map[0][0].iso_x);
 	mlx_image_to_window(mlx, g_img, 0, 0);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/18 17:18:25 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/18 21:28:42 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void			free_split_points(char **split_points);
 
 // RENDERING & MLX
 int32_t			init_window(Map **map);
-// struct Map	**parse_map(int argc, char *argv[], t_meta *meta);
+struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta);
 
 #endif

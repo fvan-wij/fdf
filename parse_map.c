@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/18 17:17:34 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/18 21:42:18 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ struct Map	**malloc_2Dstructarray(int rows, int columns, t_coordinate *head)
 	return (map);
 }
 
-struct	Map	**create_2Dstructarray(int fd, Map **map, t_coordinate *head)
+struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
 {
 	int				rows;
 	char			*line;
@@ -83,28 +83,27 @@ struct	Map	**create_2Dstructarray(int fd, Map **map, t_coordinate *head)
 		free_split_points(split_points);
 		line = get_next_line(fd);
 		if (n > columns)
-			columns = n;
+			meta->columns = n;
 		n = 0;
-		rows++;
+		meta->rows++;
 	}
-	// ft_printf("i = %d\ncolumns = %d\n", rows, columns);
-	map = malloc_2Dstructarray(rows, columns, head);
-	return (map);
+	meta->map = malloc_2Dstructarray(meta->rows, meta->columns, head);
+	return (meta);
 }
 
-void	print_map(Map **map)
+void	print_map(t_meta *meta)
 {
 	int i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while(map[i])
+	while(i < meta->rows)
 	{
-		while (!map[i][j].end_of_row)
+		while (!meta->map[i][j].end_of_row)
 		{
-			ft_printf("%d ", map[i][j].z); 
-			if (map[i][j].end_of_row == 1)
+			ft_printf("%d ", meta->map[i][j].z); 
+			if (meta->map[i][j].end_of_row == 1)
 			{
 				j = 0;
 				break ;
@@ -117,7 +116,7 @@ void	print_map(Map **map)
 	}
 }
 
-struct Map	**parse_map(int argc, char *argv[], t_meta meta)
+struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta)
 {
 	int				fd;
 	t_coordinate 	*head;
@@ -126,9 +125,7 @@ struct Map	**parse_map(int argc, char *argv[], t_meta meta)
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
-	// if (fd == -1)
-	// 	return (-1);
-	meta.map = create_2Dstructarray(fd, meta.map, head);
-	print_map(meta.map);
-	return (meta.map);
+	meta = create_2Dstructarray(fd, meta, head);
+	print_map(meta);
+	return (meta);
 }

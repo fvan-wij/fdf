@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 19:12:40 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/18 17:14:36 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 19:12:40 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/18 21:43:51 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 int32_t	main(int argc, char *argv[])
 {
-	Map 	**map;
 	t_meta	*meta;
-
+	
+	// meta->map = NULL;
 	meta = malloc(sizeof(t_meta));
-	meta->map = NULL;
-	meta->map = parse_map(argc, argv, meta->map);
-	// init_window(meta.map);
+	meta = parse_map(argc, argv, meta);
+	ft_printf("Rows = %d\nColumns = %d\n", meta->rows, meta->columns);
+	init_window(meta->map);
 	return (0);
 }
