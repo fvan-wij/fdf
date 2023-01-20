@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 19:12:40 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/18 21:43:51 by flip          ########   odam.nl         */
+/*   Updated: 2023/01/20 09:41:49 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ int32_t	main(int argc, char *argv[])
 {
 	t_meta	*meta;
 	
-	// meta->map = NULL;
 	meta = malloc(sizeof(t_meta));
 	meta = parse_map(argc, argv, meta);
 	ft_printf("Rows = %d\nColumns = %d\n", meta->rows, meta->columns);
-	init_window(meta->map);
+	init_window(meta);
 	return (0);
 }

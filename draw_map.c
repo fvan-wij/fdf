@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/19 15:29:09 by flip          ########   odam.nl         */
+/*   Updated: 2023/01/20 11:55:26 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ mlx_image_t	*g_img;
 void	hook(void *param)
 {
 	mlx_t	*mlx;
-
+	
 	mlx = param;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
@@ -40,13 +40,11 @@ void	hook(void *param)
 		g_img->instances[0].x += 5;
 }
 
-void iso(mlx_image_t* image, int x, int y, Map **map)
+void translate_to_isometric(mlx_image_t* image, int x, int y, t_meta *meta)
 {
-	int	tileWidth;
-
-	tileWidth = 30;
-    map[y][x].iso_x = (x - y) * tileWidth + (WIDTH/2);
-    map[y][x].iso_y = (x + y - map[y][x].z) * (tileWidth / 2) + 450;
+	meta->tileSize = 20;
+    meta->map[y][x].iso_x = (x - y) * meta->tileSize + (WIDTH/2);
+    meta->map[y][x].iso_y = (x + y - meta->map[y][x].z) * (meta->tileSize / 2) + 450;
 }
 
 void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int y2)
@@ -142,7 +140,6 @@ void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int 
 	}
 }
 
-
 void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int y2)
 {
 	// Figure out the slope, negative, positive, horizontal or vertical? 
@@ -236,22 +233,23 @@ void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int 
 	}
 }
 
-void	render_map(Map **map, mlx_image_t* image)
+void	render_map(t_meta *meta, mlx_image_t* image)
 {
 	int x;
 	int	y;
 	
 	x = 0;
 	y = 0;
-	while(map[y])
+	while(meta->map[y])
 	{
-		while (!map[y][x].end_of_row)
+		while (!meta->map[y][x].end_of_row)
 		{
-			iso(image, x, y, map);
+			translate_to_isometric(image, x, y, meta);
+			// mlx_put_pixel(image, x * 10, y * 10, 0xFFFFFFFF);
 			if (x >= 1)
-				draw_omnidirectional_lineX(image, map[y][x - 1].iso_x, map[y][x - 1].iso_y, map[y][x].iso_x, map[y][x].iso_y);
+				draw_omnidirectional_lineX(image, meta->map[y][x - 1].iso_x, meta->map[y][x - 1].iso_y, meta->map[y][x].iso_x, meta->map[y][x].iso_y);
 			if (y >= 1)
-				draw_omnidirectional_lineY(image, map[y - 1][x].iso_x, map[y - 1][x].iso_y, map[y][x].iso_x, map[y][x].iso_y);
+				draw_omnidirectional_lineY(image, meta->map[y - 1][x].iso_x, meta->map[y - 1][x].iso_y, meta->map[y][x].iso_x, meta->map[y][x].iso_y);
 			x++;
 		}
 		x = 0;
@@ -259,7 +257,7 @@ void	render_map(Map **map, mlx_image_t* image)
 	}
 }
 
-int32_t	init_window(Map **map)
+int32_t	init_window(t_meta *meta)
 {
 	mlx_t	*mlx;
 
@@ -267,7 +265,7 @@ int32_t	init_window(Map **map)
 	if (!mlx)
 		exit(EXIT_FAILURE);
 	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	render_map(map, g_img);
+	render_map(meta, g_img);
 	mlx_image_to_window(mlx, g_img, 0, 0);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);

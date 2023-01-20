@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/18 21:28:42 by flip          ########   odam.nl         */
+/*   Updated: 2023/01/20 09:35:25 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct t_meta
 	Map **map;
 	int columns;
 	int rows;
+	int tileSize;
 } t_meta;
 
 typedef struct s_coordinate
@@ -63,7 +64,7 @@ t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head);
 void			free_split_points(char **split_points);
 
 // RENDERING & MLX
-int32_t			init_window(Map **map);
+int32_t			init_window(t_meta *meta);
 struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta);
 
 #endif
