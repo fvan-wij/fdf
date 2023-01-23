@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   draw_map.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/20 11:55:26 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/01/23 18:26:32 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,8 @@
 #include <memory.h>
 #include<math.h>
 
-mlx_image_t	*g_img;
-
-void	hook(void *param)
+void translate_to_isometric(int x, int y, t_meta *meta)
 {
-	mlx_t	*mlx;
-	
-	mlx = param;
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		g_img->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		g_img->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		g_img->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		g_img->instances[0].x += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		g_img->instances[0].x += 5;
-}
-
-void translate_to_isometric(mlx_image_t* image, int x, int y, t_meta *meta)
-{
-	meta->tileSize = 20;
     meta->map[y][x].iso_x = (x - y) * meta->tileSize + (WIDTH/2);
     meta->map[y][x].iso_y = (x + y - meta->map[y][x].z) * (meta->tileSize / 2) + 450;
 }
@@ -119,7 +97,6 @@ void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int 
 		y = y1;
 		while (y <= y2) // -> Draws points from x1 to x2
 		{
-		
 			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
 				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
 			y++;
@@ -240,16 +217,15 @@ void	render_map(t_meta *meta, mlx_image_t* image)
 	
 	x = 0;
 	y = 0;
-	while(meta->map[y])
+	while(y < meta->rows)
 	{
-		while (!meta->map[y][x].end_of_row)
+		while (x < meta->columns)
 		{
-			translate_to_isometric(image, x, y, meta);
-			// mlx_put_pixel(image, x * 10, y * 10, 0xFFFFFFFF);
+			translate_to_isometric(x, y, meta);
 			if (x >= 1)
-				draw_omnidirectional_lineX(image, meta->map[y][x - 1].iso_x, meta->map[y][x - 1].iso_y, meta->map[y][x].iso_x, meta->map[y][x].iso_y);
+				draw_omnidirectional_lineX(image, meta->map[y][x - 1].iso_x + meta->x_offset, meta->map[y][x - 1].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
 			if (y >= 1)
-				draw_omnidirectional_lineY(image, meta->map[y - 1][x].iso_x, meta->map[y - 1][x].iso_y, meta->map[y][x].iso_x, meta->map[y][x].iso_y);
+				draw_omnidirectional_lineY(image, meta->map[y - 1][x].iso_x + meta->x_offset, meta->map[y - 1][x].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
 			x++;
 		}
 		x = 0;
@@ -257,18 +233,96 @@ void	render_map(t_meta *meta, mlx_image_t* image)
 	}
 }
 
+void	hook(void *param)
+{
+	t_meta *meta;
+	
+	meta = param;
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(meta->mlx);
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_KP_ADD))	
+	{
+		meta->tileSize+=0.1;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}	
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_KP_SUBTRACT))	
+	{
+		meta->tileSize-=0.1;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT))
+	{
+		meta->x_offset -= 5;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_RIGHT))
+	{
+		meta->x_offset += 5;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_UP))
+	{
+		meta->y_offset -= 5;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_DOWN))
+	{
+		meta->y_offset += 5;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_MINUS))
+	{
+		meta->columns--;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_EQUAL))
+	{
+		
+		if (meta->columns < meta->x_limit)
+		{
+			meta->columns++;
+			ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+			render_map(meta, meta->g_img);
+		}
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_UP))
+	{
+		meta->rows--;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
+	{
+		
+		if (meta->rows < meta->y_limit)
+		{
+			meta->rows++;
+			ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+			render_map(meta, meta->g_img);
+		}
+	}
+}
+
 int32_t	init_window(t_meta *meta)
 {
-	mlx_t	*mlx;
-
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	if (!mlx)
+	meta->tileSize = 10.0;
+	meta->x_limit = meta->columns;
+	meta->y_limit = meta->rows;
+	meta->mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+	if (!meta->mlx)
 		exit(EXIT_FAILURE);
-	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	render_map(meta, g_img);
-	mlx_image_to_window(mlx, g_img, 0, 0);
-	mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	meta->g_img = mlx_new_image(meta->mlx, WIDTH, HEIGHT);
+	render_map(meta, meta->g_img);
+	mlx_image_to_window(meta->mlx, meta->g_img, 0, 0);
+	mlx_loop_hook(meta->mlx, &hook, meta);
+	mlx_loop(meta->mlx);
+	mlx_terminate(meta->mlx);
 	return (EXIT_SUCCESS);
 }

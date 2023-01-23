@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_map.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/18 21:42:18 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/01/23 18:08:25 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,14 @@ struct Map	**malloc_2Dstructarray(int rows, int columns, t_coordinate *head)
 
 struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
 {
-	int				rows;
 	char			*line;
 	char			**split_points;
 	int				n;
-	int				columns;
 
 	line = get_next_line(fd);
-	rows = 0;
+	meta->rows = 0;
+	meta->columns = 0;
 	n = 0;
-	columns = 0;
 	while (line)
 	{
 		split_points = ft_split(line, ' ');
@@ -82,7 +80,7 @@ struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
 		head = array_to_list(split_points, n, head);
 		free_split_points(split_points);
 		line = get_next_line(fd);
-		if (n > columns)
+		if (n > meta->columns)
 			meta->columns = n;
 		n = 0;
 		meta->rows++;
@@ -126,6 +124,6 @@ struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
 	meta = create_2Dstructarray(fd, meta, head);
-	print_map(meta);
+	// print_map(meta);
 	return (meta);
 }

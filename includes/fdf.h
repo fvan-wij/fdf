@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   fdf.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/20 09:35:25 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/01/23 18:23:59 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ typedef struct Map
 
 typedef struct t_meta
 {
-	Map **map;
-	int columns;
-	int rows;
-	int tileSize;
+	Map			**map;
+	mlx_t		*mlx;
+	mlx_image_t	*g_img;
+	int			rows;
+	int			columns;
+	float		tileSize;
+	int			x_offset;
+	int			y_offset;
+	int			x_limit;
+	int			y_limit;
 } t_meta;
 
 typedef struct s_coordinate

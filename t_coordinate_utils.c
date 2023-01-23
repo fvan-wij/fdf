@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/01/18 16:23:00 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:09:25 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ void	ft_insert_back(t_coordinate **lst, int coordinate, int row_end)
 	}
 }
 
-void	print_tlist(t_coordinate *head)
-{
-	t_coordinate	*current;
+// void	print_tlist(t_coordinate *head)
+// {
+// 	t_coordinate	*current;
 
-	current = head;
-	while (current)
-	{
-		ft_printf("Node->x:%d\n", current->z);
-		current = current->next;
-	}
-}
+// 	current = head;
+// 	while (current)
+// 	{
+// 		ft_printf("Node->x:%d\n", current->z);
+// 		current = current->next;
+// 	}
+// }
 
 t_coordinate	*array_to_list(char **arr, int n, t_coordinate *head)
 {
