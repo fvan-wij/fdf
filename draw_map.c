@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   draw_map.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/24 14:58:27 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/01/25 00:30:16 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 void translate_to_isometric(int x, int y, t_meta *meta)
 {
     meta->map[y][x].iso_x = (x - y) * meta->tileSize + (WIDTH/2);
-    meta->map[y][x].iso_y = (x + y - meta->map[y][x].z) * (meta->tileSize / 2) + 450;
+    meta->map[y][x].iso_y = (x + y - meta->map[y][x].z) * (meta->tileSize + meta->z_offset/ 2) + 450;
 }
 
 void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int y2)
@@ -195,7 +195,7 @@ void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int 
 			y++;
 			if (parametric_value >= 0)
 			{
-				if (m_slope >=1)
+				if (m_slope >= 1)
 					x++;
 				else
 					x--;
@@ -242,13 +242,13 @@ void	hook(void *param)
 		mlx_close_window(meta->mlx);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_PERIOD))	
 	{
-		meta->tileSize+=0.1;
+		meta->tileSize+=0.5;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
 		render_map(meta, meta->g_img);
 	}	
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_COMMA))	
 	{
-		meta->tileSize-=0.1;
+		meta->tileSize-=0.5;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
 		render_map(meta, meta->g_img);
 	}
@@ -307,6 +307,12 @@ void	hook(void *param)
 			ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
 			render_map(meta, meta->g_img);
 		}
+	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_K))
+	{
+		meta->z_offset--;
+		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
+		render_map(meta, meta->g_img);
 	}
 }
 
