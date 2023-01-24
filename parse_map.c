@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/23 18:08:25 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/24 17:39:13 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,31 @@
 #include "MLX42/include/MLX42/MLX42.h"
 // #include "../MLX42/include/MLX42/MLX42.h"
 
-struct Map	**convert_list_to_struct(t_coordinate *head, Map **map)
+struct Map	**convert_list_to_struct(t_meta *meta, Map **map)
 {
 	t_coordinate	*current;
 	int				i;
 	int				j;
 	
-	current = head;
+	current = *meta->list;
 	i = 0;
 	j = 0;
+	
 	while (current != NULL)
 	{
-		if (current->end_of_row == 0)
+		if (j != meta->columns)
 		{
 			map[i][j].z = current->z;
+			map[i][j].x = j;
 			map[i][j].end_of_row = 0;
 			j++;
 		}
-		else if (current->end_of_row == 1)
+		else if (j == meta->columns)
 		{
+			
 			map[i][j].end_of_row = 1;
 			j = 0;
+			map[i][j].y = i;
 			i++;
 		}
 		current = current->next;
@@ -45,29 +49,32 @@ struct Map	**convert_list_to_struct(t_coordinate *head, Map **map)
 	return (map);
 }
 
-struct Map	**malloc_2Dstructarray(int rows, int columns, t_coordinate *head)
+struct Map	**malloc_2Dstructarray(t_meta *meta)
 {
 	Map				**map;
 	int				i;
 
-	map = ft_calloc(rows + 1, sizeof(Map *));
+	map = ft_calloc(meta->rows + 1, sizeof(Map *));
 	i = 0;
-	while (i < rows)
+	while (i < meta->rows)
 	{
-		map[i] = ft_calloc(columns + 1, sizeof(Map));
+		map[i] = ft_calloc(meta->columns + 1, sizeof(Map));
 		i++;
 	}
-	map = convert_list_to_struct(head, map);
+	map = convert_list_to_struct(meta, map);
 	return (map);
 }
 
-struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
+struct	t_meta *create_2Dstructarray(int fd, t_meta *meta)
 {
 	char			*line;
 	char			**split_points;
 	int				n;
+	t_coordinate	*old_point;
 
 	line = get_next_line(fd);
+	old_point = NULL;
+	meta->list = ft_calloc(1, sizeof(t_coordinate *));
 	meta->rows = 0;
 	meta->columns = 0;
 	n = 0;
@@ -77,7 +84,7 @@ struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
 		while (split_points[n])
 			n++;
 		free(line);
-		head = array_to_list(split_points, n, head);
+		old_point = array_to_list(split_points, n, meta, old_point);
 		free_split_points(split_points);
 		line = get_next_line(fd);
 		if (n > meta->columns)
@@ -85,7 +92,7 @@ struct	t_meta *create_2Dstructarray(int fd, t_meta *meta, t_coordinate *head)
 		n = 0;
 		meta->rows++;
 	}
-	meta->map = malloc_2Dstructarray(meta->rows, meta->columns, head);
+	meta->map = malloc_2Dstructarray(meta);
 	return (meta);
 }
 
@@ -117,13 +124,11 @@ void	print_map(t_meta *meta)
 struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta)
 {
 	int				fd;
-	t_coordinate 	*head;
 
-	head = NULL; // -> Not intilializing head of linked list causes segfaults on Linux!
 	if (argc != 2)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
-	meta = create_2Dstructarray(fd, meta, head);
+	meta = create_2Dstructarray(fd, meta);
 	// print_map(meta);
 	return (meta);
 }

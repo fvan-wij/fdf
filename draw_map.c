@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw_map.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/23 18:26:32 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   draw_map.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/24 14:58:27 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <memory.h>
-#include<math.h>
+#include <math.h>
 
 void translate_to_isometric(int x, int y, t_meta *meta)
 {
@@ -240,13 +240,13 @@ void	hook(void *param)
 	meta = param;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_KP_ADD))	
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_PERIOD))	
 	{
 		meta->tileSize+=0.1;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
 		render_map(meta, meta->g_img);
 	}	
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_KP_SUBTRACT))	
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_COMMA))	
 	{
 		meta->tileSize-=0.1;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
