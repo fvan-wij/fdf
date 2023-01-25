@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw_map.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/25 00:30:16 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   draw_map.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/25 16:42:00 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 
 void translate_to_isometric(int x, int y, t_meta *meta)
 {
-    meta->map[y][x].iso_x = (x - y) * meta->tileSize + (WIDTH/2);
-    meta->map[y][x].iso_y = (x + y - meta->map[y][x].z) * (meta->tileSize + meta->z_offset/ 2) + 450;
+	meta->map[y][x].iso_z = meta->map[y][x].z * (meta->z_offset * 0.5);
+    meta->map[y][x].iso_x = (x - y) * meta->tileSize + (WIDTH * 0.5);
+    meta->map[y][x].iso_y = (x + y - meta->map[y][x].iso_z) * (meta->tileSize * 0.5) + 450;
 }
 
 void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int y2)
@@ -240,87 +241,21 @@ void	hook(void *param)
 	meta = param;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_PERIOD))	
-	{
-		meta->tileSize+=0.5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}	
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_COMMA))	
-	{
-		meta->tileSize-=0.5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT))
-	{
-		meta->x_offset -= 5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_RIGHT))
-	{
-		meta->x_offset += 5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_UP))
-	{
-		meta->y_offset -= 5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_DOWN))
-	{
-		meta->y_offset += 5;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_MINUS))
-	{
-		meta->columns--;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_EQUAL))
-	{
-		
-		if (meta->columns < meta->x_limit)
-		{
-			meta->columns++;
-			ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-			render_map(meta, meta->g_img);
-		}
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_UP))
-	{
-		meta->rows--;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
-	{
-		
-		if (meta->rows < meta->y_limit)
-		{
-			meta->rows++;
-			ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-			render_map(meta, meta->g_img);
-		}
-	}
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_K))
-	{
-		meta->z_offset--;
-		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
-		render_map(meta, meta->g_img);
-	}
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_EQUAL) || mlx_is_key_down(meta->mlx, MLX_KEY_MINUS))	
+		zoom(meta);
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT) || mlx_is_key_down(meta->mlx, MLX_KEY_RIGHT) 
+		|| mlx_is_key_down(meta->mlx, MLX_KEY_UP) || mlx_is_key_down(meta->mlx, MLX_KEY_DOWN))
+		move_with_arrow_keys(meta);	
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_UP) || mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
+		raise_lower(meta);
 }
 
 int32_t	init_window(t_meta *meta)
 {
-	meta->tileSize = 10.0;
+	meta->tileSize = WIDTH / (meta->columns + meta->rows);
 	meta->x_limit = meta->columns;
 	meta->y_limit = meta->rows;
+	meta->z_offset = 2.0f;
 	meta->mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!meta->mlx)
 		exit(EXIT_FAILURE);

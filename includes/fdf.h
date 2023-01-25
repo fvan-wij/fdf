@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/25 00:24:59 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/01/25 14:58:59 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "glfw3.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIDTH 1800
-# define HEIGHT 1800
+# define WIDTH 900
+# define HEIGHT 900
 
 typedef struct Map
 {
@@ -33,9 +33,19 @@ typedef struct Map
 	int			z;
 	int			iso_x;
 	int			iso_y;
+	int			iso_z;
 	int			end_of_row;
 	uint32_t	color;
 }	Map;
+
+typedef struct s_bresenham
+{
+	int			dx;
+	int			dy;
+	int			eps;
+	int			y;
+	int			x;
+}	s_line;
 
 typedef struct s_coordinate
 {
@@ -50,12 +60,13 @@ typedef struct t_meta
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
 	t_coordinate	**list;
+	s_line			*line;
 	float			tileSize;
 	int				rows;
 	int				columns;
 	int				x_offset;
 	int				y_offset;
-	int				z_offset;
+	float			z_offset;
 	int				x_limit;
 	int				y_limit;
 } t_meta;
