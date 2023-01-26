@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_coordinate_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/01/25 00:04:34 by flip             ###   ########.fr       */
+/*   Updated: 2023/01/26 12:08:32 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_coordinate	*array_to_list(char **arr, t_meta *meta, t_coordinate *old_point)
 	i = 0;
 	while (i <= n)
 	{
-		point = ft_calloc(1, sizeof(t_coordinate *));
+		point = ft_calloc(2, sizeof(t_coordinate *));
 		if (i == n)
 			old_point = link_new_to_old(meta->list, point, old_point, 0);
 		else

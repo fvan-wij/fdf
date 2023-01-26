@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/25 00:10:57 by flip             ###   ########.fr       */
+/*   Updated: 2023/01/26 12:20:53 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 
-struct Map	**convert_list_to_struct(t_meta *meta, Map **map)
+struct Map	**convert_list_to_struct(t_meta *meta, Map **map) //->SEGFAULTS WHEN PARSING BIG MAPS...
 {
 	t_coordinate	*current;
 	int				i;
@@ -37,7 +37,8 @@ struct Map	**convert_list_to_struct(t_meta *meta, Map **map)
 			map[i][j].y = i;
 			i++;
 		}
-		free(current);
+		// free(current); //-> Causes segfaults
+		// // ft_printf("YEET\n");
 		current = current->next;
 	}
 	free(meta->list);

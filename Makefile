@@ -6,7 +6,7 @@
 #    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/01/16 19:53:46 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/01/26 11:47:33 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS		:= 	parse_map.c \
 				t_coordinate_utils.c \
 				memory_utils.c \
 				draw_map.c \
+				keyboard_interactions.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}
