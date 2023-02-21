@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   fdf.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/25 14:58:59 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/02/13 15:06:38 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,15 @@ void			clean_memory_allocations(t_meta *meta);
 // RENDERING & MLX
 int32_t			init_window(t_meta *meta);
 struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta);
+void			render_map(t_meta *meta, mlx_image_t* image);
+uint32_t		convert_rgb(unsigned int color);
+
+// ARRAY TO HEX
+uint32_t    	ft_atoh(char *hex_string);
+
+// KEYBOARD INTERACTION
+void			zoom(t_meta *meta);
+void			move_with_arrow_keys(t_meta *meta);
+void    		raise_lower(t_meta *meta);
 
 #endif

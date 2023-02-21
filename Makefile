@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
+#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/01/26 11:47:33 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/02/13 16:24:06 by flip             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ SRCS		:= 	parse_map.c \
 				memory_utils.c \
 				draw_map.c \
 				keyboard_interactions.c \
+				ft_atoh.c \
+				convert_rgb.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}

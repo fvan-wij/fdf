@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/26 12:20:53 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:26:20 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ struct Map	**convert_list_to_struct(t_meta *meta, Map **map) //->SEGFAULTS WHEN 
 		if (j != meta->columns)
 		{
 			map[i][j].z = current->z;
+			map[i][j].color = current->color;
 			map[i][j].x = j;
 			j++;
 		}
@@ -37,8 +38,6 @@ struct Map	**convert_list_to_struct(t_meta *meta, Map **map) //->SEGFAULTS WHEN 
 			map[i][j].y = i;
 			i++;
 		}
-		// free(current); //-> Causes segfaults
-		// // ft_printf("YEET\n");
 		current = current->next;
 	}
 	free(meta->list);
@@ -50,7 +49,7 @@ struct Map	**malloc_2Dstructarray(t_meta *meta)
 {
 	Map				**map;
 	int				i;
-
+	ft_printf("meta->rows = %d", meta->rows);
 	map = ft_calloc(meta->rows + 1, sizeof(Map *));
 	i = 0;
 	while (i < meta->rows)
@@ -95,7 +94,9 @@ void	print_map(t_meta *meta)
 	{
 		while (j < meta->columns)
 		{
-			ft_printf("%d ", meta->map[i][j].z); 
+			ft_printf("%d ", meta->map[i][j].z);
+			if (meta->map[i][j].color != 0)
+				ft_printf("%d ", meta->map[i][j].color);
 			j++;
 		}
 		j = 0;
@@ -112,6 +113,6 @@ struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta)
 		ft_printf("Error, provide executable + mapname in order to run this program.\n");
 	fd = open(argv[1], O_RDONLY);
 	meta = create_2Dstructarray(fd, meta);
-	print_map(meta);
+	// print_map(meta);
 	return (meta);
 }

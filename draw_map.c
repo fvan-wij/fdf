@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   draw_map.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/01/25 16:42:00 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/02/13 16:01:52 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void translate_to_isometric(int x, int y, t_meta *meta)
     meta->map[y][x].iso_y = (x + y - meta->map[y][x].iso_z) * (meta->tileSize * 0.5) + 450;
 }
 
-void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int y2)
+void	draw_omnidirectional_lineX(mlx_image_t *image, uint32_t color, int x1, int y1, int x2, int y2)
 {
 	// Figure out the slope, negative, positive, horizontal or vertical? 
 	int	parametric_value;
@@ -62,7 +62,7 @@ void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int 
 		{
 		
 			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+				mlx_put_pixel(image, x, y, color);
 			x++;
 			if (parametric_value >= 0)
 			{
@@ -99,7 +99,7 @@ void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int 
 		while (y <= y2) // -> Draws points from x1 to x2
 		{
 			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+				mlx_put_pixel(image, x, y, color);
 			y++;
 			if (parametric_value >= 0)
 			{
@@ -118,7 +118,7 @@ void	draw_omnidirectional_lineX(mlx_image_t *image, int x1, int y1, int x2, int 
 	}
 }
 
-void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int y2)
+void	draw_omnidirectional_lineY(mlx_image_t *image, uint32_t color, int x1, int y1, int x2, int y2)
 {
 	// Figure out the slope, negative, positive, horizontal or vertical? 
 	int	parametric_value;
@@ -154,7 +154,7 @@ void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int 
 		{
 		
 			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+				mlx_put_pixel(image, x, y, color);
 			x++;
 			if (parametric_value >= 0)
 			{
@@ -192,7 +192,7 @@ void	draw_omnidirectional_lineY(mlx_image_t *image, int x1, int y1, int x2, int 
 		{
 		
 			if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-				mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+				mlx_put_pixel(image, x, y, color);
 			y++;
 			if (parametric_value >= 0)
 			{
@@ -224,9 +224,9 @@ void	render_map(t_meta *meta, mlx_image_t* image)
 		{
 			translate_to_isometric(x, y, meta);
 			if (x >= 1)
-				draw_omnidirectional_lineX(image, meta->map[y][x - 1].iso_x + meta->x_offset, meta->map[y][x - 1].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
+				draw_omnidirectional_lineX(image, meta->map[y][x].color, meta->map[y][x - 1].iso_x + meta->x_offset, meta->map[y][x - 1].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
 			if (y >= 1)
-				draw_omnidirectional_lineY(image, meta->map[y - 1][x].iso_x + meta->x_offset, meta->map[y - 1][x].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
+				draw_omnidirectional_lineY(image, meta->map[y][x].color, meta->map[y - 1][x].iso_x + meta->x_offset, meta->map[y - 1][x].iso_y + meta->y_offset, meta->map[y][x].iso_x + meta->x_offset, meta->map[y][x].iso_y + meta->y_offset);
 			x++;
 		}
 		x = 0;

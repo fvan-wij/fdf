@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   keyboard_interactions.c                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/25 12:25:38 by flip          #+#    #+#                 */
-/*   Updated: 2023/01/25 14:59:31 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   keyboard_interactions.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 12:25:38 by flip              #+#    #+#             */
+/*   Updated: 2023/01/31 21:56:25 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void    raise_lower(t_meta *meta)
 {
     if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_UP))
 	{
-        meta->z_offset += 0.2;
+        meta->z_offset += 0.1;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
         render_map(meta, meta->g_img);
     }
     else if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
 	{
-        meta->z_offset -= 0.2;
+        meta->z_offset -= 0.1;
 		ft_bzero(meta->g_img->pixels, sizeof(int) * meta->g_img->width * meta->g_img->height);
         render_map(meta, meta->g_img);
     }
