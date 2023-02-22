@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/02/13 16:26:20 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/02/22 17:45:27 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 
-struct Map	**convert_list_to_struct(t_meta *meta, Map **map) //->SEGFAULTS WHEN PARSING BIG MAPS...
+struct Map	**convert_list_to_struct(t_meta *meta, Map **map) 
 {
 	t_coordinate	*current;
 	int				i;
@@ -40,8 +40,7 @@ struct Map	**convert_list_to_struct(t_meta *meta, Map **map) //->SEGFAULTS WHEN 
 		}
 		current = current->next;
 	}
-	free(meta->list);
-	ft_printf("META->**LIST CLEANED!\n");
+	clear_list(meta->list);
 	return (map);
 }
 
@@ -49,7 +48,6 @@ struct Map	**malloc_2Dstructarray(t_meta *meta)
 {
 	Map				**map;
 	int				i;
-	ft_printf("meta->rows = %d", meta->rows);
 	map = ft_calloc(meta->rows + 1, sizeof(Map *));
 	i = 0;
 	while (i < meta->rows)
@@ -105,14 +103,11 @@ void	print_map(t_meta *meta)
 	}
 }
 
-struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta)
+struct t_meta	*parse_map(int fd, t_meta *meta)
 {
-	int				fd;
-
-	if (argc != 2)
-		ft_printf("Error, provide executable + mapname in order to run this program.\n");
-	fd = open(argv[1], O_RDONLY);
 	meta = create_2Dstructarray(fd, meta);
+	if (!meta)
+		free_with_exit_code(1, meta);
 	// print_map(meta);
 	return (meta);
 }

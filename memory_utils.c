@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   memory_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 11:59:41 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/01/25 00:19:29 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   memory_utils.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 11:59:41 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/02/22 17:43:50 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,29 @@ void	clean_memory_allocations(t_meta *meta)
 	}
 	ft_printf("MEMORY ALLOCATIONS CLEANED!\n");
 	ft_printf("IT'S ALL OGRE NOW...\n");
+}
+
+void	clear_list(t_coordinate **list)
+{
+	t_coordinate	*current;
+	t_coordinate	*previous;
+	
+	current = *list;
+	while (current != NULL)
+	{
+		previous = current;
+		current = current->next;
+		free(previous);
+	}
+	*list = NULL;
+}
+
+void	free_with_exit_code(int error_code, t_meta *meta)
+{
+	if (error_code == 1) //Failed to create 2Dstructarray
+		free_2Dstructarray(meta);
+	if (error_code == 2) //Failed allocate node for double linked list
+		clear_list(meta->list);
+	free(meta);
+	exit(error_code);
 }

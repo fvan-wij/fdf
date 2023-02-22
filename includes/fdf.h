@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/02/13 15:06:38 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/02/22 17:32:33 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,21 @@ typedef struct s_bresenham
 {
 	int			dx;
 	int			dy;
-	int			eps;
+	int			sx;
+	int			sy;
+	int			cx;
+	int			cy;
 	int			y;
 	int			x;
 }	s_line;
+
+typedef struct t_point
+{
+	int			x1;
+	int			y1;
+	int			x2;
+	int			y2;
+}	s_point;
 
 typedef struct s_coordinate
 {
@@ -60,7 +71,7 @@ typedef struct t_meta
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
 	t_coordinate	**list;
-	s_line			*line;
+	s_line			point;
 	float			tileSize;
 	int				rows;
 	int				columns;
@@ -79,10 +90,13 @@ t_coordinate	*array_to_list(char **arr, t_meta *meta, t_coordinate *old_point);
 void			free_split_points(char **split_points);
 void			free_2Dstructarray(t_meta *meta);
 void			clean_memory_allocations(t_meta *meta);
+void			clear_list(t_coordinate **list);
+void			free_with_exit_code(int error_code, t_meta *meta);
+
 
 // RENDERING & MLX
 int32_t			init_window(t_meta *meta);
-struct t_meta	*parse_map(int argc, char *argv[], t_meta *meta);
+struct t_meta	*parse_map(int fd, t_meta *meta);
 void			render_map(t_meta *meta, mlx_image_t* image);
 uint32_t		convert_rgb(unsigned int color);
 
