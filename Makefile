@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/02/13 16:24:06 by flip             ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: flip <flip@student.42.fr>                    +#+                      #
+#                                                    +#+                       #
+#    Created: 2022/12/16 13:03:08 by fvan-wij      #+#    #+#                  #
+#    Updated: 2023/03/03 16:48:57 by flip          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS		:= 	parse_map.c \
 				keyboard_interactions.c \
 				ft_atoh.c \
 				convert_rgb.c \
+				draw_line.c \
+				draw_isometric.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}
