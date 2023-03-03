@@ -6,18 +6,13 @@
 /*   By: flip <flip@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 16:41:17 by flip          #+#    #+#                 */
-/*   Updated: 2023/03/03 16:42:34 by flip          ########   odam.nl         */
+/*   Updated: 2023/03/03 17:04:43 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <memory.h>
-#include <math.h>
 
 static int	sign_x(int x1, int x2)
 {

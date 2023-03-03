@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   isometric_translation.c                            :+:    :+:            */
+/*   draw_isometric.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: flip <flip@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 16:45:56 by flip          #+#    #+#                 */
-/*   Updated: 2023/03/03 16:46:25 by flip          ########   odam.nl         */
+/*   Updated: 2023/03/03 17:04:39 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <memory.h>
-#include <math.h>
 
 static void translate_to_isometric(int x, int y, t_meta *meta)
 {

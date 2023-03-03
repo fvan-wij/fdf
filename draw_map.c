@@ -6,18 +6,13 @@
 /*   By: flip <flip@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/03/03 16:50:46 by flip          ########   odam.nl         */
+/*   Updated: 2023/03/03 17:04:18 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <memory.h>
-#include <math.h>
 
 void	render_map(t_meta *meta, mlx_image_t* image)
 {
