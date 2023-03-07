@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   draw_line.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/03/03 16:41:17 by flip          #+#    #+#                 */
-/*   Updated: 2023/03/03 17:04:43 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/03 16:41:17 by flip              #+#    #+#             */
+/*   Updated: 2023/03/05 19:13:40 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void draw_pixel(mlx_image_t *image, int x, int y, uint32_t color)
 		mlx_put_pixel(image, x, y, color);
 }
 
-void	draw_line(mlx_image_t *image, uint32_t color, s_line point, s_point p)
+void	draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p)
 {
 	int	error[2];
-	
+
 	point.dx = abs(p.x2 - p.x1);
 	point.dy = abs(p.y2 - p.y1);
 	point.sx = sign_x(p.x1, p.x2);

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: flip <flip@student.42.fr>                    +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/12/16 13:03:08 by fvan-wij      #+#    #+#                  #
-#    Updated: 2023/03/03 16:48:57 by flip          ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: flip <flip@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
+#    Updated: 2023/03/05 19:55:45 by flip             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ SRCS		:= 	parse_map.c \
 				memory_utils.c \
 				draw_map.c \
 				keyboard_interactions.c \
-				ft_atoh.c \
 				convert_rgb.c \
 				draw_line.c \
 				draw_isometric.c \
+				utilities.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}
@@ -39,7 +39,7 @@ ifdef DEBUG #Compile with DEBUG=1
 endif
 
 ifdef LINUX #Compile with LINUX=1
-	OS += -lglfw -ldl -pthread -lm 
+	OS += -lglfw -ldl -pthread -lm
 endif
 
 ifndef LINUX

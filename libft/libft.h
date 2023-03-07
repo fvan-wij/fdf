@@ -6,7 +6,7 @@
 /*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/02/13 14:10:02 by flip             ###   ########.fr       */
+/*   Updated: 2023/03/05 13:49:16 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	ft_putadr(unsigned long n);
 int	ft_printspecifier(int specifier, va_list args);
 
 // Custom functions
-char		*ft_strjoin_and_free(char *s1, char *s2);
-char		**ft_split_nl(char const *s, char c);
+char			*ft_strjoin_and_free(char *s1, char *s2);
+char			**ft_split_nl(char const *s, char c);
+unsigned int    ft_atoh(char *hex_string);
 
 #endif

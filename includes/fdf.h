@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   fdf.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/03/03 16:55:20 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/03/05 19:31:21 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define WIDTH 900
 # define HEIGHT 900
 
-typedef struct Map
+typedef struct s_map
 {
 	int			x;
 	int			y;
@@ -35,7 +35,7 @@ typedef struct Map
 	int			iso_y;
 	int			iso_z;
 	uint32_t	color;
-}	Map;
+}	t_map;
 
 typedef struct s_bresenham
 {
@@ -47,49 +47,44 @@ typedef struct s_bresenham
 	int			cy;
 	int			y;
 	int			x;
-}	s_line;
+}	t_line;
 
-typedef struct t_point
+typedef struct s_point
 {
 	int			x1;
 	int			y1;
 	int			x2;
 	int			y2;
-}	s_point;
+}	t_point;
 
 typedef struct s_coordinate
 {
 	int					z;
 	uint32_t			color;
 	struct s_coordinate	*next;
-}	t_coordinate;
+}	t_lstcoordinate;
 
-typedef struct t_meta
+typedef struct s_meta
 {
-	Map				**map;
+	t_lstcoordinate	**list;
+	t_map			**map;
+	t_line			point;
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
-	t_coordinate	**list;
-	s_line			point;
 	float			tileSize;
-	int				tileWidth;
-	int				tileHeight;
 	int				rows;
 	int				columns;
 	int				x_offset;
 	int				y_offset;
-	float			z_offset;
+	int				z_offset;
+	int				perspective;
 } t_meta;
-
-// LIST UTILS
-void			print_tlist(t_coordinate *head);
-t_coordinate	*array_to_list(char **arr, t_meta *meta, t_coordinate *old_point);
 
 // MEMORY UTILS
 void			free_split_points(char **split_points);
 void			free_2Dstructarray(t_meta *meta);
 void			clean_memory_allocations(t_meta *meta);
-void			clear_list(t_coordinate **list);
+void			clear_list(t_lstcoordinate **list);
 void			free_with_exit_code(int error_code, t_meta *meta);
 
 // RENDERING & MLX
@@ -99,12 +94,14 @@ void			render_map(t_meta *meta, mlx_image_t* image);
 uint32_t		convert_rgb(unsigned int color);
 
 // DRAWING
-void	draw_line(mlx_image_t *image, uint32_t color, s_line point, s_point p);
-void 	draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
-void	draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p);
+void 			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
+void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 
-// ARRAY TO HEX
-uint32_t    	ft_atoh(char *hex_string);
+// UTILITIES
+void			print_tlist(t_lstcoordinate *head);
+t_lstcoordinate	*array_to_list(char **arr, t_meta *meta, t_lstcoordinate *old_point);
 
 // KEYBOARD INTERACTION
 void			hook(void *param);

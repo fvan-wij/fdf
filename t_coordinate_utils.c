@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   t_coordinate_utils.c                               :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/15 17:54:51 by flip          #+#    #+#                 */
-/*   Updated: 2023/02/22 17:44:52 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   t_coordinate_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
+/*   Updated: 2023/03/05 13:43:53 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
 
-t_coordinate	*link_new_to_old(t_coordinate **lst, t_coordinate *new, t_coordinate *old_point, int coordinate, unsigned int color)
+t_lstcoordinate	*link_new_to_old(t_lstcoordinate **lst, t_lstcoordinate *new, t_lstcoordinate *old_point, int coordinate, unsigned int color)
 {
 	if (*lst == NULL)
 		*lst = new;
@@ -27,9 +27,9 @@ t_coordinate	*link_new_to_old(t_coordinate **lst, t_coordinate *new, t_coordinat
 	return (new);
 }
 
-void	print_tlist(t_coordinate *head)
+void	print_tlist(t_lstcoordinate *head)
 {
-	t_coordinate	*current;
+	t_lstcoordinate	*current;
 
 	current = head;
 	while (current)
@@ -39,11 +39,11 @@ void	print_tlist(t_coordinate *head)
 	}
 }
 
-t_coordinate	*array_to_list(char **arr, t_meta *meta, t_coordinate *old_point)
+t_lstcoordinate	*array_to_list(char **arr, t_meta *meta, t_lstcoordinate *old_point)
 {
 	int				i;
 	int				n;
-	t_coordinate	*point;
+	t_lstcoordinate	*point;
 	char			*color;
 	
 	n = 0;
@@ -54,7 +54,7 @@ t_coordinate	*array_to_list(char **arr, t_meta *meta, t_coordinate *old_point)
 	i = 0;
 	while (i <= n)
 	{
-		point = ft_calloc(2, sizeof(t_coordinate *));
+		point = ft_calloc(2, sizeof(t_lstcoordinate *));
 		if (!point)
 			free_with_exit_code(2, meta);
 		if (i == n)

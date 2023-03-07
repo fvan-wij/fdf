@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   memory_utils.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/16 11:59:41 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/02/22 17:43:50 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   memory_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/16 11:59:41 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/03/05 20:06:52 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	clean_memory_allocations(t_meta *meta)
 	ft_printf("IT'S ALL OGRE NOW...\n");
 }
 
-void	clear_list(t_coordinate **list)
+void	clear_list(t_lstcoordinate **list)
 {
-	t_coordinate	*current;
-	t_coordinate	*previous;
+	t_lstcoordinate	*current;
+	t_lstcoordinate	*previous;
 	
 	current = *list;
 	while (current != NULL)

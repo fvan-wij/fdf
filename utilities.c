@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_rgb.c                                      :+:      :+:    :+:   */
+/*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 14:43:33 by flip              #+#    #+#             */
-/*   Updated: 2023/03/05 19:19:45 by flip             ###   ########.fr       */
+/*   Created: 2023/03/05 13:08:39 by flip              #+#    #+#             */
+/*   Updated: 2023/03/05 13:51:05 by flip             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
+#include "MLX42/include/MLX42/MLX42.h"
 
-int	rgb_combine(int r, int g, int b)
+void	print_map(t_meta *meta)
 {
-	return (r << 24 | g << 16 | b << 8);
-}
+	int i;
+	int	j;
 
-uint32_t	convert_rgb(unsigned int color)
-{
-    int		red;
-	int		green;
-	int		blue;
-
-	red = ((color >> 16) & 0xFF);
-	green = ((color >> 8) & 0xFF);
-	blue = (color & 0xFF);
-	color = rgb_combine(red, green, blue) | 0xFF;
-	return (color);
+	i = 0;
+	j = 0;
+	while(i < meta->rows)
+	{
+		while (j < meta->columns)
+		{
+			ft_printf("%d ", meta->map[i][j].z);
+			if (meta->map[i][j].color != 0)
+				ft_printf("%d ", meta->map[i][j].color);
+			j++;
+		}
+		j = 0;
+		ft_printf("\n");
+		i++;
+	}
 }
