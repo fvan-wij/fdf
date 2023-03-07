@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   fdf.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: flip <flip@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/03/07 10:39:26 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/03/07 22:49:49 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,25 @@
 # include <stdio.h>
 # include <memory.h>
 # include <unistd.h>
+# include <stdint.h>
 # include "glfw3.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIDTH 900
-# define HEIGHT 900
-# define BACKGROUND 0x000FF
+# define WIDTH 1920
+# define HEIGHT 1080
+# define BACKGROUND 0xFF222222
+
+typedef union s_rgba
+{
+	int color;
+	struct
+	{
+		int8_t a;
+		int8_t b;
+		int8_t g;
+		int8_t r;
+	};
+} t_rgba ;
 
 typedef struct s_map
 {
@@ -72,13 +85,13 @@ typedef struct s_meta
 	t_line			point;
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
-	float			tileSize;
+	int				mode;
+	int				tileSize;
 	int				rows;
 	int				columns;
 	int				x_offset;
 	int				y_offset;
 	float			z_offset;
-	int				perspective;
 } t_meta;
 
 // MEMORY UTILS
@@ -92,13 +105,16 @@ void			free_with_exit_code(int error_code, t_meta *meta);
 int32_t			init_window(t_meta *meta);
 t_meta			*parse_map(int fd, t_meta *meta);
 void			render_map(t_meta *meta, mlx_image_t* image);
-uint32_t		convert_rgb(unsigned int color);
+uint32_t		convert_rgba(unsigned int color);
+int				mix_rgba(int r, int g, int b, int a);
 
 // DRAWING
 void			draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p);
 void 			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void 			draw_gradient(mlx_image_t *image, int x, int y, uint32_t color, t_meta *meta);
+void			draw_psychedelic_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 
 // UTILITIES
 void			print_tlist(t_lstcoordinate *head);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_coordinate_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/03/05 13:43:53 by flip             ###   ########.fr       */
+/*   Updated: 2023/03/07 19:57:48 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_lstcoordinate	*link_new_to_old(t_lstcoordinate **lst, t_lstcoordinate *new, t_
 		*lst = new;
 	new->z = coordinate;
 	if (color == 0)
-		new->color = convert_rgb(0xFFFFFFFF);
+		new->color = 0xFFFFFFFF;
 	else
-		new->color = convert_rgb(color);
+		new->color = convert_rgba(color);
 	if (old_point != NULL)
 		old_point->next = new;
 	return (new);

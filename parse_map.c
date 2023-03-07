@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/05 20:08:21 by flip             ###   ########.fr       */
+/*   Updated: 2023/03/07 17:16:11 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 
 t_map	**malloc_2Dstructarray(t_meta *meta)
 {
-	t_map				**map;
+	t_map			**map;
 	int				i;
 	map = ft_calloc(meta->rows + 1, sizeof(t_map *));
 	i = 0;
@@ -68,6 +68,8 @@ t_meta *create_2Dstructarray(int fd, t_meta *meta)
 	line = get_next_line(fd);
 	old_point = NULL;
 	meta->list = ft_calloc(1, sizeof(t_lstcoordinate *));
+	if (!meta->list)
+		free(meta->list);
 	while (line)
 	{
 		split_points = ft_split(line, ' ');
