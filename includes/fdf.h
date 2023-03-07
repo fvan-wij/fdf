@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/05 19:31:21 by flip             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: flip <flip@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/03/07 10:39:26 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define WIDTH 900
 # define HEIGHT 900
+# define BACKGROUND 0x000FF
 
 typedef struct s_map
 {
@@ -76,7 +77,7 @@ typedef struct s_meta
 	int				columns;
 	int				x_offset;
 	int				y_offset;
-	int				z_offset;
+	float			z_offset;
 	int				perspective;
 } t_meta;
 
