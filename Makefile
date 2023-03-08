@@ -6,7 +6,7 @@
 #    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/03/07 15:06:26 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/03/08 20:03:13 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS		:= 	parse_map.c \
 				draw_line.c \
 				draw_isometric.c \
 				utilities.c \
+				menu.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}

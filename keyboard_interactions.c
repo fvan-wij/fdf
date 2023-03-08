@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:25:38 by flip              #+#    #+#             */
-/*   Updated: 2023/03/07 22:47:44 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/08 21:04:22 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 
 void    zoom(t_meta *meta)
 {
+	
     if (mlx_is_key_down(meta->mlx, MLX_KEY_EQUAL))
         meta->tileSize++;
     else if (mlx_is_key_down(meta->mlx, MLX_KEY_MINUS))
         meta->tileSize--;
+	draw_menu(meta);
     render_map(meta, meta->g_img);
 }
 
@@ -47,11 +49,11 @@ void    raise_lower(t_meta *meta)
     render_map(meta, meta->g_img);
 }
 
-void	change_perspective(t_meta *meta)
+void	change_mode(t_meta *meta)
 {
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_P))
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_I))
         meta->mode = 0;
-    else if (mlx_is_key_down(meta->mlx, MLX_KEY_I))
+    else if (mlx_is_key_down(meta->mlx, MLX_KEY_G))
         meta->mode = 1;
     else if (mlx_is_key_down(meta->mlx, MLX_KEY_T))
         meta->mode = 2;
@@ -61,7 +63,7 @@ void	change_perspective(t_meta *meta)
 void	hook(void *param)
 {
 	t_meta *meta;
-	
+
 	meta = param;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
@@ -73,6 +75,6 @@ void	hook(void *param)
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_UP) || mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
 		raise_lower(meta);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_T) || mlx_is_key_down(meta->mlx, MLX_KEY_I) 
-		|| mlx_is_key_down(meta->mlx, MLX_KEY_P))
-		change_perspective(meta);
+		|| mlx_is_key_down(meta->mlx, MLX_KEY_G))
+		change_mode(meta);
 }

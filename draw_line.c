@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:41:17 by flip              #+#    #+#             */
-/*   Updated: 2023/03/07 21:30:18 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:16:36 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,13 @@ static int	sign_y(int y1, int y2)
 
 void draw_pixel(mlx_image_t *image, int x, int y, uint32_t color)
 {
-	if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-		mlx_put_pixel(image, x, y, color);
-}
-
-// void draw_gradient(mlx_image_t *image, int x, int y, uint32_t color, t_point p)
-// {
-// 	t_rgba c;
-
-// 	c.color = mix_rgba(y * 2, 0, 0, 255);
-// 	color = c.color;
-// 	if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
-// 		mlx_put_pixel(image, x, y, color);
-// }
-
-void draw_gradient(mlx_image_t *image, int x, int y, uint32_t color, t_meta *meta)
-{
-	t_rgba c;
-	
-	c.color = mix_rgba(meta->x_offset, 0, 0, 255);
-	color = c.color;
-	if ((x  > 0 && x  < WIDTH) && (y  > 0 && y < HEIGHT))
+	if ((x  >= MENU_WIDTH && x  < WIDTH) && (y  >= 0 && y < HEIGHT))
 		mlx_put_pixel(image, x, y, color);
 }
 
 void	draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p)
 {
 	int	error[2];
-
 	point.dx = abs(p.x2 - p.x1);
 	point.dy = abs(p.y2 - p.y1);
 	point.sx = sign_x(p.x1, p.x2);

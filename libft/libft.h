@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flip <flip@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/05 13:49:16 by flip             ###   ########.fr       */
+/*   Updated: 2023/03/08 20:39:12 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # include <stdlib.h>
 # include <strings.h>
 # include <unistd.h>
@@ -73,6 +77,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // GET_NEXT_LINE
 char	*get_next_line(int fd);
+int		ft_strchr_index(const char *s, int c);
 
 // PRINTF
 int	ft_printf(const char *s, ...);

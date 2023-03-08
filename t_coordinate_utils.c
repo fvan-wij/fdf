@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/03/07 19:57:48 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:53:25 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_lstcoordinate	*link_new_to_old(t_lstcoordinate **lst, t_lstcoordinate *new, t_
 		*lst = new;
 	new->z = coordinate;
 	if (color == 0)
-		new->color = 0xFFFFFFFF;
+		new->color = LINE_COLOR;
 	else
 		new->color = convert_rgba(color);
 	if (old_point != NULL)

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/07 22:49:49 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:17:15 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@
 # include "glfw3.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-# define BACKGROUND 0xFF222222
-
+# define WIDTH 1600
+# define MENU_WIDTH 350
+# define MENU_HEIGHT 1600
+# define HEIGHT 1600
+# define BACKGROUND 0x11111111
+# define LINE_COLOR 0xBBBBBBBB
 typedef union s_rgba
 {
 	int color;
@@ -38,7 +40,7 @@ typedef union s_rgba
 		int8_t g;
 		int8_t r;
 	};
-} t_rgba ;
+}	t_rgba;
 
 typedef struct s_map
 {
@@ -92,7 +94,7 @@ typedef struct s_meta
 	int				x_offset;
 	int				y_offset;
 	float			z_offset;
-} t_meta;
+}	t_meta;
 
 // MEMORY UTILS
 void			free_split_points(char **split_points);
@@ -113,8 +115,8 @@ void			draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p);
 void 			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
-void 			draw_gradient(mlx_image_t *image, int x, int y, uint32_t color, t_meta *meta);
-void			draw_psychedelic_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			draw_menu(t_meta *meta);
 
 // UTILITIES
 void			print_tlist(t_lstcoordinate *head);
