@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:41:17 by flip              #+#    #+#             */
-/*   Updated: 2023/03/08 20:16:36 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:56:08 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ static int	sign_y(int y1, int y2)
 void draw_pixel(mlx_image_t *image, int x, int y, uint32_t color)
 {
 	if ((x  >= MENU_WIDTH && x  < WIDTH) && (y  >= 0 && y < HEIGHT))
+		mlx_put_pixel(image, x, y, color);
+}
+
+void draw_menu_pixel(mlx_image_t *image, int x, int y, uint32_t color)
+{
+	if ((x  >= 0 && x  < MENU_WIDTH) && (y  >= 0 && y < HEIGHT))
 		mlx_put_pixel(image, x, y, color);
 }
 

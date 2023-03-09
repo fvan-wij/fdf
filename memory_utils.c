@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:59:41 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/07 17:25:39 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:18:28 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	clean_memory_allocations(t_meta *meta)
 		clear_list(meta->list);
 	}
 	free(meta->list);
+	free(meta->menu);
 	free(meta);
 	ft_printf("MEMORY ALLOCATIONS CLEANED!\n");
 	ft_printf("IT'S ALL OGRE NOW...\n");

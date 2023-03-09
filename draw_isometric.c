@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:45:56 by flip              #+#    #+#             */
-/*   Updated: 2023/03/08 18:16:42 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:36:10 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,18 @@ void	draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 	}
 }
 
+static int gradient_color(t_meta *meta, int x, int y)
+{
+	int color = (2.5f * meta->map[y][x].iso_z) + 50;
+	if (color > 255)
+		color = 255;
+	if (color < 0)
+		color = 0;
+	if (color < 0)
+		color = color * -1;
+	return (color);
+}
+
 void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 {
 	t_point px;
@@ -86,8 +98,8 @@ void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 		px.x1 = meta->map[y][x - 1].iso_x;
 		px.y1 = meta->map[y][x - 1].iso_y;
 		px.x2 = meta->map[y][x].iso_x;
-		px.y2 = meta->map[y][x].iso_y;	
-		draw_line(image, mix_rgba(255, 255, 255, 250.0f * -meta->map[y][x].iso_z), meta->point, px);
+		px.y2 = meta->map[y][x].iso_y;
+		draw_line(image, mix_rgba(255, 255, 255, gradient_color(meta, x, y)), meta->point, px);
 	}
 	if (y >= 1)
 	{
@@ -95,6 +107,6 @@ void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 		py.y1 = meta->map[y - 1][x].iso_y;
 		py.x2 = meta->map[y][x].iso_x;
 		py.y2 = meta->map[y][x].iso_y;
-		draw_line(image, mix_rgba(255, 255, 255, 250.0f * -meta->map[y][x].iso_z), meta->point, py);
+		draw_line(image, mix_rgba(255, 255, 255, gradient_color(meta, x, y)), meta->point, py);
 	}
 }

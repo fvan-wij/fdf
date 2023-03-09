@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/08 21:06:03 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:37:12 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	render_map(t_meta *meta, mlx_image_t* image)
 
 int32_t	init_window(t_meta *meta)
 {
-	meta->tileSize = WIDTH / (meta->columns + meta->rows);
+	meta->tileSize = (WIDTH - MENU_WIDTH) / (meta->columns + meta->rows);
 	if (meta->tileSize == 0)
 		meta->tileSize = 1;
 	meta->mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
@@ -63,7 +63,7 @@ int32_t	init_window(t_meta *meta)
 		exit(EXIT_FAILURE);
 	meta->g_img = mlx_new_image(meta->mlx, WIDTH, HEIGHT);
 	render_map(meta, meta->g_img);
-	draw_menu(meta);
+	draw_static_menu(meta);
 	mlx_image_to_window(meta->mlx, meta->g_img, 0, 0);
 	mlx_loop_hook(meta->mlx, &hook, meta);
 	mlx_loop(meta->mlx);

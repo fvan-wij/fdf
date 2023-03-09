@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/08 20:17:15 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:16:46 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define WIDTH 1600
-# define MENU_WIDTH 350
+# define MENU_WIDTH 250
 # define MENU_HEIGHT 1600
 # define HEIGHT 1600
 # define BACKGROUND 0x11111111
 # define LINE_COLOR 0xBBBBBBBB
+
 typedef union s_rgba
 {
 	int color;
@@ -80,11 +81,23 @@ typedef struct s_coordinate
 	struct s_coordinate	*next;
 }	t_lstcoordinate;
 
+typedef struct s_menu
+{
+	mlx_image_t		*menu_bg;
+	mlx_image_t		*menu_info_tilesize;
+	mlx_image_t		*menu_info_depth;
+	mlx_image_t		*menu_info_static;
+	int				menu_items;
+	int				x;
+	int				y;
+} t_menu;
+
 typedef struct s_meta
 {
 	t_lstcoordinate	**list;
 	t_map			**map;
 	t_line			point;
+	t_menu			*menu;
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
 	int				mode;
@@ -113,10 +126,13 @@ int				mix_rgba(int r, int g, int b, int a);
 // DRAWING
 void			draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p);
 void 			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
+void 			draw_menu_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 void			draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
-void			draw_menu(t_meta *meta);
+void			draw_static_menu(t_meta *meta);
+void			draw_depth_info(t_meta *meta);
+void			draw_tilesize_info(t_meta *meta);
 
 // UTILITIES
 void			print_tlist(t_lstcoordinate *head);

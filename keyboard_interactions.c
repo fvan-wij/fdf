@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:25:38 by flip              #+#    #+#             */
-/*   Updated: 2023/03/08 21:04:22 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:47:04 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    zoom(t_meta *meta)
         meta->tileSize++;
     else if (mlx_is_key_down(meta->mlx, MLX_KEY_MINUS))
         meta->tileSize--;
-	draw_menu(meta);
+	draw_tilesize_info(meta);
     render_map(meta, meta->g_img);
 }
 
@@ -46,6 +46,7 @@ void    raise_lower(t_meta *meta)
         meta->z_offset += 0.1f;
     else if (mlx_is_key_down(meta->mlx, MLX_KEY_PAGE_DOWN))
         meta->z_offset -= 0.1f;
+	draw_depth_info(meta);
     render_map(meta, meta->g_img);
 }
 
