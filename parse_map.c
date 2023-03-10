@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/07 17:16:11 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/10 19:27:05 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 
-t_map	**convert_list_to_struct(t_meta *meta, t_map **map) 
+static void	copy_node_data(t_meta *meta, t_lstcoordinate *node, t_map **map, int i, int j)
+{
+	if (j != meta->columns)
+	{
+		map[i][j].z = node->z;
+		map[i][j].color = node->color;
+		map[i][j].x = j;	
+	}
+	else if (j == meta->columns)
+		map[i][j].y = i;		
+}
+
+t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 {
 	t_lstcoordinate	*current;
 	int				i;
 	int				j;
-	
+
 	current = *meta->list;
 	i = 0;
 	j = 0;
@@ -27,15 +39,13 @@ t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 	{
 		if (j != meta->columns)
 		{
-			map[i][j].z = current->z;
-			map[i][j].color = current->color;
-			map[i][j].x = j;
+			copy_node_data(meta, current, map, i, j);
 			j++;
 		}
 		else if (j == meta->columns)
 		{
 			j = 0;
-			map[i][j].y = i;
+			copy_node_data(meta, current, map, i, j);
 			i++;
 		}
 		current = current->next;
@@ -44,10 +54,11 @@ t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 	return (map);
 }
 
-t_map	**malloc_2Dstructarray(t_meta *meta)
+t_map	**malloc_2d_struct_array(t_meta *meta)
 {
 	t_map			**map;
 	int				i;
+
 	map = ft_calloc(meta->rows + 1, sizeof(t_map *));
 	i = 0;
 	while (i < meta->rows)
@@ -59,10 +70,10 @@ t_map	**malloc_2Dstructarray(t_meta *meta)
 	return (map);
 }
 
-t_meta *create_2Dstructarray(int fd, t_meta *meta)
+t_meta	*create_2d_struct_array_from_map(int fd, t_meta *meta)
 {
 	char			*line;
-	char			**split_points;
+	char			**map_points;
 	t_lstcoordinate	*old_point;
 
 	line = get_next_line(fd);
@@ -72,20 +83,20 @@ t_meta *create_2Dstructarray(int fd, t_meta *meta)
 		free(meta->list);
 	while (line)
 	{
-		split_points = ft_split(line, ' ');
+		map_points = ft_split(line, ' ');
 		free(line);
-		old_point = array_to_list(split_points, meta, old_point);
-		free_split_points(split_points);
+		old_point = convert_array_to_list(map_points, meta, old_point);
+		free_map_points(map_points);
 		line = get_next_line(fd);
 		meta->rows++;
 	}
-	meta->map = malloc_2Dstructarray(meta);
+	meta->map = malloc_2d_struct_array(meta);
 	return (meta);
 }
 
 t_meta	*parse_map(int fd, t_meta *meta)
 {
-	meta = create_2Dstructarray(fd, meta);
+	meta = create_2d_struct_array_from_map(fd, meta);
 	if (!meta)
 		free_with_exit_code(1, meta);
 	return (meta);

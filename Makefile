@@ -6,7 +6,7 @@
 #    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/03/08 20:03:13 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/03/10 18:25:37 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,16 @@ LIBFT		:= ./libft/libft.a
 HEADERS		:= -I ./includes -I $(LIBMLX)/include -I ./libft
 LIBS		:= $(LIBMLX)/libmlx42.a
 SRCS		:= 	parse_map.c \
-				t_coordinate_utils.c \
-				memory_utils.c \
 				draw_map.c \
+				draw_utilities.c \
+				draw_landscape.c \
+				draw_menu.c \
+				bresenham_line.c \
+				linked_list_utilities.c \
+				memory_utilities.c \
 				keyboard_interactions.c \
-				convert_rgb.c \
-				draw_line.c \
-				draw_isometric.c \
-				utilities.c \
-				menu.c \
+				translate_perspective.c \
+				color.c \
 				main.c \
 
 OBJS		:=	${SRCS:.c=.o}
@@ -72,4 +73,3 @@ fclean:	clean
 re:	fclean all
 
 .PHONY:	all, clean, fclean, re, libmlx
-

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/09 20:16:46 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/10 19:32:24 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@
 
 typedef union s_rgba
 {
-	int color;
+	int	color;
 	struct
 	{
-		int8_t a;
-		int8_t b;
-		int8_t g;
-		int8_t r;
+		int8_t	a;
+		int8_t	b;
+		int8_t	g;
+		int8_t	r;
 	};
 }	t_rgba;
 
@@ -87,10 +87,10 @@ typedef struct s_menu
 	mlx_image_t		*menu_info_tilesize;
 	mlx_image_t		*menu_info_depth;
 	mlx_image_t		*menu_info_static;
-	int				menu_items;
+	int				items;
 	int				x;
 	int				y;
-} t_menu;
+}	t_menu;
 
 typedef struct s_meta
 {
@@ -101,7 +101,7 @@ typedef struct s_meta
 	mlx_t			*mlx;
 	mlx_image_t		*g_img;
 	int				mode;
-	int				tileSize;
+	float			tilesize;
 	int				rows;
 	int				columns;
 	int				x_offset;
@@ -110,38 +110,51 @@ typedef struct s_meta
 }	t_meta;
 
 // MEMORY UTILS
-void			free_split_points(char **split_points);
-void			free_2Dstructarray(t_meta *meta);
+void			free_map_points(char **split_points);
+void			free_2d_struct_array(t_meta *meta);
 void			clean_memory_allocations(t_meta *meta);
 void			clear_list(t_lstcoordinate **list);
 void			free_with_exit_code(int error_code, t_meta *meta);
 
 // RENDERING & MLX
 int32_t			init_window(t_meta *meta);
+void			init_meta(t_meta *meta);
 t_meta			*parse_map(int fd, t_meta *meta);
-void			render_map(t_meta *meta, mlx_image_t* image);
+void			render_map(t_meta *meta, mlx_image_t *image);
 uint32_t		convert_rgba(unsigned int color);
 int				mix_rgba(int r, int g, int b, int a);
+int				gradient_color(t_meta *meta, int x, int y);
+
+// PERSPECTIVE TRANSLATION
+void			translate_to_isometric(int x, int y, t_meta *meta);
+void			translate_to_topdown(int x, int y, t_meta *meta);
 
 // DRAWING
-void			draw_line(mlx_image_t *image, uint32_t color, t_line point, t_point p);
-void 			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
-void 			draw_menu_pixel(mlx_image_t *image, int x, int y, uint32_t color);
-void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
-void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
-void			draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			bresenham_line(mlx_image_t *image, uint32_t color,
+					t_line point, t_point p);
+void			draw_pixel(mlx_image_t *image, int x, int y, uint32_t color);
+void			draw_menu_pixel(mlx_image_t *image, int x, int y,
+					uint32_t color);
+void			draw_isometric_landscape(t_meta *meta, mlx_image_t *image,
+					int x, int y);
+void			draw_topdown_landscape(t_meta *meta, mlx_image_t *image,
+					int x, int y);
+void			draw_gradient_landscape(t_meta *meta, mlx_image_t *image,
+					int x, int y);
 void			draw_static_menu(t_meta *meta);
-void			draw_depth_info(t_meta *meta);
-void			draw_tilesize_info(t_meta *meta);
+void			draw_depth_info(t_meta *meta, t_menu *menu);
+void			draw_tilesize_info(t_meta *meta, t_menu *menu);
+void			draw_background(t_meta *meta, uint32_t color, int x, int y);
+void			draw_menu_background(t_meta *meta);
 
 // UTILITIES
-void			print_tlist(t_lstcoordinate *head);
-t_lstcoordinate	*array_to_list(char **arr, t_meta *meta, t_lstcoordinate *old_point);
+t_lstcoordinate	*convert_array_to_list(char **arr, t_meta *meta,
+					t_lstcoordinate *old_point);
 
 // KEYBOARD INTERACTION
 void			hook(void *param);
 void			zoom(t_meta *meta);
 void			move_with_arrow_keys(t_meta *meta);
-void    		raise_lower(t_meta *meta);
+void			raise_lower(t_meta *meta);
 
 #endif
