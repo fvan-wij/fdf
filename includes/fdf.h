@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/10 19:32:24 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/03/11 10:40:19 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define WIDTH 1600
+# define HEIGHT 1600
 # define MENU_WIDTH 250
 # define MENU_HEIGHT 1600
-# define HEIGHT 1600
 # define BACKGROUND 0x11111111
 # define LINE_COLOR 0xBBBBBBBB
 
@@ -56,6 +56,7 @@ typedef struct s_map
 
 typedef struct s_bresenham
 {
+	int			error[2];
 	int			dx;
 	int			dy;
 	int			sx;
@@ -150,6 +151,8 @@ void			draw_menu_background(t_meta *meta);
 // UTILITIES
 t_lstcoordinate	*convert_array_to_list(char **arr, t_meta *meta,
 					t_lstcoordinate *old_point);
+void			copy_node_data_zcx(t_map **map, t_lstcoordinate *node, int i, int j);
+void			copy_node_data_y(t_map **map, int i, int j);
 
 // KEYBOARD INTERACTION
 void			hook(void *param);

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/03/10 18:25:37 by fvan-wij         ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: fvan-wij <fvan-wij@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2022/12/16 13:03:08 by fvan-wij      #+#    #+#                  #
+#    Updated: 2023/03/11 10:41:05 by flip          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS		:= 	parse_map.c \
 				memory_utilities.c \
 				keyboard_interactions.c \
 				translate_perspective.c \
+				utilities.c \
 				color.c \
 				main.c \
 

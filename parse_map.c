@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 22:28:18 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/10 19:27:05 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/13 22:28:18 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/03/11 10:39:33 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
-
-static void	copy_node_data(t_meta *meta, t_lstcoordinate *node, t_map **map, int i, int j)
-{
-	if (j != meta->columns)
-	{
-		map[i][j].z = node->z;
-		map[i][j].color = node->color;
-		map[i][j].x = j;	
-	}
-	else if (j == meta->columns)
-		map[i][j].y = i;		
-}
 
 t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 {
@@ -39,13 +27,13 @@ t_map	**convert_list_to_struct(t_meta *meta, t_map **map)
 	{
 		if (j != meta->columns)
 		{
-			copy_node_data(meta, current, map, i, j);
+			copy_node_data_zcx(map, current, i, j);
 			j++;
 		}
 		else if (j == meta->columns)
 		{
 			j = 0;
-			copy_node_data(meta, current, map, i, j);
+			copy_node_data_y(map, i, j);
 			i++;
 		}
 		current = current->next;

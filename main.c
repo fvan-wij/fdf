@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 19:12:40 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/10 19:03:06 by fvan-wij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/16 19:12:40 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/03/11 10:44:40 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 
+void f()
+{
+	system("Leaks fdf");	
+}
+
 int32_t	main(int argc, char *argv[])
 {
 	t_meta	*meta;
 	int		fd;
 
+	atexit(f);
 	if (argc != 2)
 		return (perror("Error: argc is not equal to 2"), 1);
 	fd = open(argv[1], O_RDONLY);
