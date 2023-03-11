@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:54:51 by flip              #+#    #+#             */
-/*   Updated: 2023/03/10 18:59:46 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:52:39 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_lstcoordinate	*add_map_points_to_list(int n, t_lstcoordinate *old_point,
 					old_point, 0, 0);
 		else if (color)
 			old_point = link_new_to_old(meta,
-					old_point, ft_atoi(arr[i]), ft_atoh(color));
+					old_point, ft_atoi(arr[i]), ft_atoh(color + 1));
 		else
 			old_point = link_new_to_old(meta,
 					old_point, ft_atoi(arr[i]), 0);

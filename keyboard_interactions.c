@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:25:38 by flip              #+#    #+#             */
-/*   Updated: 2023/03/10 19:37:35 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:12:51 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	change_mode(t_meta *meta)
 		meta->mode = 1;
 	else if (mlx_is_key_down(meta->mlx, MLX_KEY_T))
 		meta->mode = 2;
+	else if (mlx_is_key_down(meta->mlx, MLX_KEY_P))
+		meta->mode = 3;
 	render_map(meta, meta->g_img);
 }
 

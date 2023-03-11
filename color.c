@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:43:33 by flip              #+#    #+#             */
-/*   Updated: 2023/03/10 17:12:47 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:35:51 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,25 @@ int	gradient_color(t_meta *meta, int x, int y)
 
 int	mix_rgba(int r, int g, int b, int a)
 {
-	int		color;
 	t_rgba	rgba;
 
 	rgba.r = r;
 	rgba.g = g;
 	rgba.b = b;
 	rgba.a = a;
-	return (color = rgba.color);
+	return (rgba.color);
 }
 
-uint32_t	convert_rgba(unsigned int color)
+unsigned int	union_rgba(unsigned int color)
+{
+	t_rgba	rgba;
+
+	rgba.color = color << 8;
+	rgba.a = 255;
+	return(rgba.color);
+}
+
+unsigned int	convert_rgba(unsigned int color)
 {
 	return (color = ((color << 8)) | 0xFF);
 }

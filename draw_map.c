@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:42:53 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/10 19:36:48 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:12:34 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	render_map(t_meta *meta, mlx_image_t *image)
 				draw_isometric_landscape(meta, image, x, y);
 			if (meta->mode == 2)
 				draw_topdown_landscape(meta, image, x, y);
+			if (meta->mode == 3)
+				draw_particle_landscape(meta, image, x, y);
 			x++;
 		}
 		x = 0;

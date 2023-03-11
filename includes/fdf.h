@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   fdf.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fvan-wij <fvan-wij@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/20 12:13:32 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/03/11 10:40:19 by flip          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
+/*   Updated: 2023/03/11 16:22:45 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 typedef union s_rgba
 {
-	int	color;
+	int32_t	color;
 	struct
 	{
 		int8_t	a;
@@ -122,9 +122,10 @@ int32_t			init_window(t_meta *meta);
 void			init_meta(t_meta *meta);
 t_meta			*parse_map(int fd, t_meta *meta);
 void			render_map(t_meta *meta, mlx_image_t *image);
-uint32_t		convert_rgba(unsigned int color);
+unsigned int	convert_rgba(unsigned int color);
 int				mix_rgba(int r, int g, int b, int a);
 int				gradient_color(t_meta *meta, int x, int y);
+unsigned int	union_rgba(unsigned int color);
 
 // PERSPECTIVE TRANSLATION
 void			translate_to_isometric(int x, int y, t_meta *meta);
@@ -147,6 +148,7 @@ void			draw_depth_info(t_meta *meta, t_menu *menu);
 void			draw_tilesize_info(t_meta *meta, t_menu *menu);
 void			draw_background(t_meta *meta, uint32_t color, int x, int y);
 void			draw_menu_background(t_meta *meta);
+void			draw_particle_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
 
 // UTILITIES
 t_lstcoordinate	*convert_array_to_list(char **arr, t_meta *meta,

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:45:56 by flip              #+#    #+#             */
-/*   Updated: 2023/03/10 18:23:02 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:21:34 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	draw_topdown_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 		py.y2 = meta->map[y][x].y;
 		bresenham_line(image, meta->map[y][x].color, meta->point, py);
 	}
+}
+
+void	draw_particle_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
+{
+	translate_to_isometric(x, y, meta);
+	draw_pixel(image, meta->map[y][x].iso_x, meta->map[y][x].iso_y, meta->map[y][x].color);
 }
 
 void	draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
@@ -68,7 +74,7 @@ void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 	t_point	py;
 	int		color;
 
-	color = mix_rgba(255, 255, 255, gradient_color(meta, x, y));
+	color = mix_rgba(255, 0, 0, 255);
 	translate_to_isometric(x, y, meta);
 	if (x >= 1)
 	{
