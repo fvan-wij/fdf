@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:13:32 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/11 16:22:45 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:49:35 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "glfw3.h"
+# include "../libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define WIDTH 1600
 # define HEIGHT 1600
 # define MENU_WIDTH 250
 # define MENU_HEIGHT 1600
+# define MENU_OFFSET 50
 # define BACKGROUND 0x11111111
-# define LINE_COLOR 0xBBBBBBBB
+# define LINE_COLOR 0xFFFFFFFF
 
 typedef union s_rgba
 {
@@ -87,7 +89,6 @@ typedef struct s_menu
 	mlx_image_t		*menu_bg;
 	mlx_image_t		*menu_info_tilesize;
 	mlx_image_t		*menu_info_depth;
-	mlx_image_t		*menu_info_static;
 	int				items;
 	int				x;
 	int				y;
@@ -148,12 +149,14 @@ void			draw_depth_info(t_meta *meta, t_menu *menu);
 void			draw_tilesize_info(t_meta *meta, t_menu *menu);
 void			draw_background(t_meta *meta, uint32_t color, int x, int y);
 void			draw_menu_background(t_meta *meta);
-void			draw_particle_landscape(t_meta *meta, mlx_image_t *image, int x, int y);
+void			draw_particle_landscape(t_meta *meta,
+					mlx_image_t *image, int x, int y);
 
 // UTILITIES
 t_lstcoordinate	*convert_array_to_list(char **arr, t_meta *meta,
 					t_lstcoordinate *old_point);
-void			copy_node_data_zcx(t_map **map, t_lstcoordinate *node, int i, int j);
+void			copy_node_data_zcx(t_map **map, t_lstcoordinate *node,
+					int i, int j);
 void			copy_node_data_y(t_map **map, int i, int j);
 
 // KEYBOARD INTERACTION

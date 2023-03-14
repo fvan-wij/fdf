@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:41:49 by fvan-wij          #+#    #+#             */
-/*   Updated: 2022/12/22 18:18:19 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:33:09 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_printf(const char *s, ...)
 		if (s[i] == '%')
 		{
 			if (s[i + 1] == '\0')
-				return (-1); //Evaluate if this is correct bevaviour
+				return (-1);
 			n_of_chars += ft_printspecifier(s[i + 1], args);
 			i++;
 		}

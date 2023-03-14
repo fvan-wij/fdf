@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: fvan-wij <fvan-wij@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/12/16 13:03:08 by fvan-wij      #+#    #+#                  #
-#    Updated: 2023/03/11 10:41:05 by flip          ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/12/16 13:03:08 by fvan-wij          #+#    #+#              #
+#    Updated: 2023/03/14 17:27:41 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME		:= fdf
 CFLAGS		:= -Wall -Wextra #-Werror is omitted to be able to compile with warnings!
 LIBMLX		:= ./MLX42
 LIBFT		:= ./libft/libft.a
-
 HEADERS		:= -I ./includes -I $(LIBMLX)/include -I ./libft
 LIBS		:= $(LIBMLX)/libmlx42.a
 SRCS		:= 	parse_map.c \
@@ -31,7 +30,10 @@ SRCS		:= 	parse_map.c \
 				color.c \
 				main.c \
 
-OBJS		:=	${SRCS:.c=.o}
+SRCDIR 		:= ./src
+OBJDIR 		:= ./obj
+OBJS		:= $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
+SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 
 OS			:= -I ./MLX42
 
@@ -54,15 +56,16 @@ all: libmlx $(NAME)
 libmlx:		
 	@$(MAKE) -C $(LIBMLX)
 
-%.o: %.c	
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
-
 $(NAME): $(OBJS)
 	@$(MAKE) -C libft
 	@$(CC) $^ $(LIBS) $(OS) $(LIBFT) $(HEADERS) -o $(NAME)
 
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
+
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJDIR)
 	@$(MAKE) -C $(LIBMLX) clean
 	@$(MAKE) -C libft clean
 

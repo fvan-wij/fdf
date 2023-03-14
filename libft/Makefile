@@ -6,7 +6,7 @@
 #    By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 18:08:39 by fvan-wij          #+#    #+#              #
-#    Updated: 2023/03/08 20:41:20 by fvan-wij         ###   ########.fr        #
+#    Updated: 2023/03/14 17:45:31 by fvan-wij         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,14 +109,12 @@ all: 		$(NAME)
 			@$(CC) $(CFLAGS) -c -o $@ $^
 
 clean: 		
-			@echo $(Yellow) Cleaned all object files! $(Text_Off)
 			@$(RMV) $(OBJ)
 
 fclean: 	clean
-			@echo $(Yellow) Cleaned libft.a! $(Text_Off)
+			@echo $(Yellow) Cleaned ✅ $(Text_Off)
 			@$(RMV) $(NAME)
 
 re: 		fclean $(NAME)
-
 
 .PHONY:		all clean fclean re bonus
