@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:24:11 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/03/14 17:49:26 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:27:20 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static void	draw_line(mlx_image_t *image,
 void	bresenham_line(mlx_image_t *image,
 	uint32_t color, t_line point, t_point p)
 {
-	point.dx = abs(p.x2 - p.x1);
-	point.dy = abs(p.y2 - p.y1);
 	point.sx = sign_x(p.x1, p.x2);
 	point.sy = sign_y(p.y1, p.y2);
+	point.dx = abs(p.x2 - p.x1);
+	point.dy = abs(p.y2 - p.y1);
 	point.error[0] = point.dx - point.dy;
 	point.cx = p.x1;
 	point.cy = p.y1;

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:45:56 by flip              #+#    #+#             */
-/*   Updated: 2023/03/14 17:49:46 by fvan-wij         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:32:47 by fvan-wij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 {
 	t_point	px;
 	t_point	py;
+	int		depth_treshold;
 
+	depth_treshold = 100000;
 	translate_to_isometric(x, y, meta);
-	if (x >= 1)
+	if (x >= 1 && meta->map[y][x].iso_z < depth_treshold)
 	{
 		px.x1 = meta->map[y][x - 1].iso_x;
 		px.y1 = meta->map[y][x - 1].iso_y;
@@ -57,7 +59,7 @@ void	draw_isometric_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 		px.y2 = meta->map[y][x].iso_y;
 		bresenham_line(image, meta->map[y][x].color, meta->point, px);
 	}
-	if (y >= 1)
+	if (y >= 1 && meta->map[y][x].iso_z < depth_treshold)
 	{
 		py.x1 = meta->map[y - 1][x].iso_x;
 		py.y1 = meta->map[y - 1][x].iso_y;
@@ -72,10 +74,12 @@ void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 	t_point	px;
 	t_point	py;
 	int		color;
+	int		depth_treshold;
 
+	depth_treshold = 100000;
 	translate_to_isometric(x, y, meta);
 	color = mix_rgba(255, 255, 255, gradient_color(meta, x, y));
-	if (x >= 1)
+	if (x >= 1 && meta->map[y][x].iso_z < depth_treshold)
 	{
 		px.x1 = meta->map[y][x - 1].iso_x;
 		px.y1 = meta->map[y][x - 1].iso_y;
@@ -83,7 +87,7 @@ void	draw_gradient_landscape(t_meta *meta, mlx_image_t *image, int x, int y)
 		px.y2 = meta->map[y][x].iso_y;
 		bresenham_line(image, color, meta->point, px);
 	}
-	if (y >= 1)
+	if (y >= 1 && meta->map[y][x].iso_z < depth_treshold)
 	{
 		py.x1 = meta->map[y - 1][x].iso_x;
 		py.y1 = meta->map[y - 1][x].iso_y;
